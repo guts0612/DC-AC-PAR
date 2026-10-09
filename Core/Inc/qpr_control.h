@@ -7,7 +7,7 @@
  * 外环增益单位 A/V，内环增益单位 V/A；Wc 单位 rad/s。
  * 外环是初始调试参数，尚未经实物整定。电流参考限幅不是硬件过流保护。
  */
-#define QPR_VOLTAGE_KP_A_PER_V         0.05f
+#define QPR_VOLTAGE_KP_A_PER_V         0.1f
 #define QPR_VOLTAGE_KR_A_PER_V         0.01f
 #define QPR_VOLTAGE_WC_RAD_S           5.0f
 #define QPR_CURRENT_REFERENCE_LIMIT_A  3.5f
