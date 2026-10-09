@@ -1,0 +1,4 @@
+{
+    "C_Cpp.default.compileCommands":  "${workspaceFolder}/.vscode/compile_commands.json",
+    "KeilAssistant.Project.IntelliSenseMode":  "windows-clang-arm"
+}

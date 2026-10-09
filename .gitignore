@@ -1,0 +1,48 @@
+# ---- Keil MDK build output ----
+MDK-ARM/dcac/
+MDK-ARM/RTE/
+MDK-ARM/*.uvguix.*
+MDK-ARM/*.uvoptx
+MDK-ARM/*.bak
+MDK-ARM/*.dep
+MDK-ARM/*.lnp
+MDK-ARM/*.iex
+MDK-ARM/*.sct
+MDK-ARM/*.lst
+MDK-ARM/*.map
+MDK-ARM/*.htm
+MDK-ARM/*.log
+MDK-ARM/EventRecorderStub.scvd
+
+# ---- ARM compiler / linker intermediates ----
+*.o
+*.obj
+*.axf
+*.elf
+*.bin
+*.hex
+*.crf
+*.d
+*.dep
+*.lnp
+*.iex
+*.lst
+*.map
+*.plg
+
+# ---- VSCode + Keil Assistant local state ----
+MDK-ARM/.vscode/*.log
+MDK-ARM/.vscode/*.lock
+MDK-ARM/.vscode/backups/
+MDK-ARM/.vscode/verification/
+MDK-ARM/.vscode/before-intellisense-fix/
+
+# ---- Local scratch and agent backups ----
+.codex-backups/
+MDK-ARM/.open_loop_work/
+MDK-ARM/.agents/
+
+# ---- OS junk ----
+Thumbs.db
+desktop.ini
+.DS_Store

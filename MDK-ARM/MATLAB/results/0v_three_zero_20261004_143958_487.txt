@@ -1,0 +1,28 @@
+DC-AC-PAR three-channel zero calibration
+Source: D:/download/vofa/0v.csv
+Rows: 1:49802; valid: 49802; excluded NaN/Inf: 0
+Formula: output = (ADC_voltage - zero_ADC_V) * gain
+New zero_ADC_V = old zero_ADC_V + mean(output) / gain
+
+CH2 / I1: gain=17.7; old zero=0 V (ADC)
+  Residual mean=+0.657916399141 V; zero increment=+0.0371704180305 V (ADC)
+  Std=0.3619325 V; peak-to-peak=1.451953 V; half drift=+0.00305706269 V
+  Corrected calibration mean=-1.19289342e-14 V
+CH4 / I3: gain=2.400384; old zero=0 V (ADC)
+  Residual mean=-0.0242019726316 A; zero increment=-0.0100825420564 V (ADC)
+  Std=0.0603921119 A; peak-to-peak=0.281295 A; half drift=+0.000117766074 A
+  Corrected calibration mean=-8.07532204e-17 A
+CH7 / I6: gain=2.400384; old zero=0 V (ADC)
+  Residual mean=+0.0335649519296 A; zero increment=+0.0139831593319 V (ADC)
+  Std=0.0869918863 A; peak-to-peak=0.400845 A; half drift=+0.000329575278 A
+  Corrected calibration mean=5.35025754e-18 A
+
+Replace these macros (ALL in ADC volts):
+#define VOLTAGE_ZERO_V (0.037170418f)
+#define CURRENT_ZERO_V (-0.010082542f)
+#define AUX_CURRENT_ZERO_V (0.013983159f)
+
+Collect with VOFA_MEAN_OUTPUT_ENABLE = 0.
+Calibration requires actual 0 V and both currents at 0 A.
+Use gains and old offsets from the firmware that collected this CSV.
+After programming new offsets, verify with an independent zero-input capture.
