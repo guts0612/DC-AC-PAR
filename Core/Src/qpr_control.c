@@ -47,8 +47,7 @@ float QPR_CurrentStep(QPR_Control *control, float current_reference_a,
     modulation = QPR_Clamp(bridge / dc_bus_v, QPR_MODULATION_LIMIT);
     /* 误差继续推动饱和时冻结谐振状态，避免从机接入时累计过大校正量。 */
     if ((error * (raw - correction) <= 0.0f) &&
-        ((bridge / dc_bus_v == modulation) ||
-         (error * (bridge - modulation * dc_bus_v) <= 0.0f)))
+        (error * (bridge - modulation * dc_bus_v) <= 0.0f))
     {
         control->resonant_r = r;
         control->resonant_q = q;
@@ -89,6 +88,44 @@ static void QPR_UpdateReference(QPR_Control *control, float sine_reference,
     control->reference_v = control->reference_peak_v * sine_reference;
 }
 
+/* 一周期均值消除 50 Hz 及其整数次谐波对零偏估计的影响。
+ * 斜坡过程中冻结估计并清空窗口，避免把幅值变化当成直流偏置。
+ * 平滑系数按窗口时长计算；中断中不进行除法、指数或三角函数计算。
+ */
+static float QPR_CompensateVoltageError(QPR_Control *control, float raw_error,
+                                       uint8_t reference_stable)
+{
+#if QPR_VOLTAGE_ERROR_DC_COMPENSATION_ENABLE
+    {
+        if (reference_stable != 0U)
+        {
+            control->voltage_error_dc_sum_v += raw_error;
+            control->voltage_error_dc_count++;
+            if (control->voltage_error_dc_count >= control->voltage_error_dc_window_samples)
+            {
+                /* alpha/window 在初始化时计算，保持实时路径只用乘加。 */
+                const float target = control->voltage_error_dc_sum_v *
+                                     control->voltage_error_dc_mean_scale;
+                control->voltage_error_dc_v += control->voltage_error_dc_alpha *
+                                               (target - control->voltage_error_dc_v);
+                control->voltage_error_dc_sum_v = 0.0f;
+                control->voltage_error_dc_count = 0U;
+            }
+        }
+        else
+        {
+            control->voltage_error_dc_sum_v = 0.0f;
+            control->voltage_error_dc_count = 0U;
+        }
+        return raw_error - control->voltage_error_dc_v;
+    }
+#else
+    (void)control;
+    (void)reference_stable;
+    return raw_error;
+#endif
+}
+
 void QPR_ControlReset(QPR_Control *control)
 {
     if (control == 0) return;
@@ -96,12 +133,13 @@ void QPR_ControlReset(QPR_Control *control)
     control->current_error_previous_a = 0.0f;
     control->resonant_r = 0.0f;
     control->resonant_q = 0.0f;
-    control->voltage_resonant_r = 0.0f;
-    control->voltage_resonant_q = 0.0f;
-    control->voltage_qpr_unlimited_a = 0.0f;
     control->reference_peak_v = 0.0f;
     control->reference_v = 0.0f;
     control->voltage_error_v = 0.0f;
+    control->voltage_error_dc_v = 0.0f;
+    control->voltage_error_compensated_v = 0.0f;
+    control->voltage_error_dc_sum_v = 0.0f;
+    control->voltage_error_dc_count = 0U;
     control->current_reference_a = 0.0f;
     control->current_error_a = 0.0f;
     control->qpr_unlimited_v = 0.0f;
@@ -109,7 +147,6 @@ void QPR_ControlReset(QPR_Control *control)
     control->bridge_reference_v = 0.0f;
     control->modulation = 0.0f;
     control->qpr_saturation_count = 0U;
-    control->voltage_qpr_saturation_count = 0U;
     control->modulation_saturation_count = 0U;
     control->fault_flags = control->initialized ? QPR_FAULT_NONE : QPR_FAULT_CONFIGURATION;
 }
@@ -120,18 +157,20 @@ uint8_t QPR_ControlInit(QPR_Control *control, float sample_frequency_hz)
     double theta;
     double damping;
     double denominator;
+    double virtual_denominator;
+    double dc_window_samples;
+    double dc_window_period_s;
 
     if (control == 0) return 0U;
     memset(control, 0, sizeof(*control));
     control->fault_flags = QPR_FAULT_CONFIGURATION;
     if ((!QPR_IsFinite(sample_frequency_hz)) ||
         (sample_frequency_hz <= 2.0f * QPR_FREQUENCY_HZ) ||
-        (!QPR_IsFinite(QPR_VOLTAGE_KP_A_PER_V)) || (QPR_VOLTAGE_KP_A_PER_V < 0.0f) ||
-        (!QPR_IsFinite(QPR_VOLTAGE_KR_A_PER_V)) || (QPR_VOLTAGE_KR_A_PER_V < 0.0f) ||
-        (!QPR_IsFinite(QPR_VOLTAGE_WC_RAD_S)) || (QPR_VOLTAGE_WC_RAD_S <= 0.0f) ||
-        (!QPR_IsFinite(QPR_CURRENT_REFERENCE_LIMIT_A)) || (QPR_CURRENT_REFERENCE_LIMIT_A <= 0.0f) ||
+        (QPR_VIRTUAL_L_H <= 0.0f) || (QPR_VIRTUAL_R_OHM <= 0.0f) ||
         (QPR_WC_RAD_S <= 0.0f) || (QPR_REFERENCE_SLEW_V_PER_S <= 0.0f) ||
         (QPR_CORRECTION_LIMIT_V <= 0.0f) ||
+        (!QPR_IsFinite(QPR_VOLTAGE_ERROR_DC_TRACK_TIME_S)) ||
+        (QPR_VOLTAGE_ERROR_DC_TRACK_TIME_S <= 0.0f) ||
         (QPR_MODULATION_LIMIT <= 0.0f) || (QPR_MODULATION_LIMIT >= 1.0f))
     {
         return 0U;
@@ -139,6 +178,13 @@ uint8_t QPR_ControlInit(QPR_Control *control, float sample_frequency_hz)
 
     /* 初始化使用 double 避免系数生成时的精度损失；实时运算仍是 float。 */
     ts = 1.0 / (double)sample_frequency_hz;
+    dc_window_samples = (double)sample_frequency_hz / (double)QPR_FREQUENCY_HZ;
+    if (dc_window_samples > (double)UINT32_MAX - 0.5) return 0U;
+    control->voltage_error_dc_window_samples = (uint32_t)(dc_window_samples + 0.5);
+    control->voltage_error_dc_mean_scale = 1.0f / (float)control->voltage_error_dc_window_samples;
+    dc_window_period_s = (double)control->voltage_error_dc_window_samples * ts;
+    control->voltage_error_dc_alpha = (float)(dc_window_period_s /
+        ((double)QPR_VOLTAGE_ERROR_DC_TRACK_TIME_S + dc_window_period_s));
     theta = 2.0 * QPR_PI * (double)QPR_FREQUENCY_HZ * ts;
     damping = (double)QPR_WC_RAD_S * ts;
     denominator = 1.0 + damping + theta * theta * 0.25;
@@ -157,13 +203,10 @@ uint8_t QPR_ControlInit(QPR_Control *control, float sample_frequency_hz)
     control->resonant_h = (float)(theta * 0.5);
     control->sample_period_s = (float)ts;
 
-    /* 电压外环采用同一 Tustin 双状态形式，独立带宽/增益/状态。 */
-    damping = (double)QPR_VOLTAGE_WC_RAD_S * ts;
-    denominator = 1.0 + damping + theta * theta * 0.25;
-    control->voltage_resonant_decay = (float)((2.0 * damping + theta * theta * 0.5) / denominator);
-    control->voltage_resonant_b = (float)(-theta / denominator);
-    control->voltage_resonant_g = (float)((double)QPR_VOLTAGE_KR_A_PER_V * damping / denominator);
-    control->voltage_resonant_h = (float)(theta * 0.5);
+    /* 模型虚拟阻抗是连续 1/(Lv*s+Rv)；MCU 按 Tustin 离散化。 */
+    virtual_denominator = 2.0 * (double)QPR_VIRTUAL_L_H + (double)QPR_VIRTUAL_R_OHM * ts;
+    control->virtual_decay = (float)(2.0 * (double)QPR_VIRTUAL_R_OHM * ts / virtual_denominator);
+    control->virtual_b = (float)(ts / virtual_denominator);
     control->initialized = 1U;
     QPR_ControlReset(control);
     return 1U;
@@ -174,6 +217,7 @@ float QPR_ControlStep(QPR_Control *control, float sine_reference,
                       float inductor_current_a, float dc_bus_v)
 {
     float voltage_error;
+    float voltage_error_compensated;
     float current_reference;
     float current_error;
     float resonant_next;
@@ -182,9 +226,6 @@ float QPR_ControlStep(QPR_Control *control, float sine_reference,
     float correction;
     float bridge_voltage;
     float modulation_raw;
-    float voltage_resonant_next;
-    float voltage_quadrature_next;
-    float voltage_qpr_raw;
 
     if (control == 0) return 0.0f;
     if ((!control->initialized) || (control->fault_flags != QPR_FAULT_NONE))
@@ -205,16 +246,13 @@ float QPR_ControlStep(QPR_Control *control, float sine_reference,
 
     QPR_UpdateReference(control, sine_reference, reference_peak_v);
 
-    /* 外环：电压误差(V) -> 电压 QPR -> 限幅后的电感电流指令(A)。 */
+    /* 外环：电压误差(V) -> 虚拟阻抗 -> 电感电流指令(A)。 */
     voltage_error = control->reference_v - voltage_v;
-    voltage_resonant_next = control->voltage_resonant_r +
-        (-control->voltage_resonant_decay * control->voltage_resonant_r +
-         control->voltage_resonant_b * control->voltage_resonant_q +
-         control->voltage_resonant_g * (voltage_error + control->voltage_error_previous_v));
-    voltage_quadrature_next = control->voltage_resonant_q +
-        control->voltage_resonant_h * (voltage_resonant_next + control->voltage_resonant_r);
-    voltage_qpr_raw = QPR_VOLTAGE_KP_A_PER_V * voltage_error + voltage_resonant_next;
-    current_reference = QPR_Clamp(voltage_qpr_raw, QPR_CURRENT_REFERENCE_LIMIT_A);
+    voltage_error_compensated = QPR_CompensateVoltageError(control, voltage_error,
+        (uint8_t)(control->reference_peak_v == reference_peak_v));
+    current_reference = control->current_reference_a +
+                        (control->virtual_b * (voltage_error_compensated + control->voltage_error_previous_v) -
+                         control->virtual_decay * control->current_reference_a);
     current_error = current_reference - inductor_current_a;
 
     /* 内环：电感电流误差(A) -> QPR -> 电压校正量(V)。 */
@@ -227,8 +265,8 @@ float QPR_ControlStep(QPR_Control *control, float sine_reference,
     qpr_raw = QPR_KP * current_error + resonant_next;
 
     /* 先检查再限幅，防止 NaN/Inf 进入 PWM 比较寄存器的整数转换。 */
-    if ((!QPR_IsFinite(voltage_error)) || (!QPR_IsFinite(voltage_resonant_next)) ||
-        (!QPR_IsFinite(voltage_quadrature_next)) || (!QPR_IsFinite(voltage_qpr_raw)) ||
+    if ((!QPR_IsFinite(control->voltage_error_dc_sum_v)) ||
+        (!QPR_IsFinite(control->voltage_error_dc_v)) ||
         (!QPR_IsFinite(current_reference)) || (!QPR_IsFinite(current_error)) ||
         (!QPR_IsFinite(resonant_next)) || (!QPR_IsFinite(quadrature_next)) ||
         (!QPR_IsFinite(qpr_raw)))
@@ -238,7 +276,7 @@ float QPR_ControlStep(QPR_Control *control, float sine_reference,
         return 0.0f;
     }
 
-    /* 内环校正限幅 -> 加参考电压前馈 -> 除母线 -> 调制度限幅。 */
+    /* 保持模型次序：QPR 校正限幅 -> 加参考电压前馈 -> 除母线。 */
     correction = QPR_Clamp(qpr_raw, QPR_CORRECTION_LIMIT_V);
     bridge_voltage = correction + control->reference_v;
     modulation_raw = bridge_voltage / dc_bus_v;
@@ -249,32 +287,19 @@ float QPR_ControlStep(QPR_Control *control, float sine_reference,
         return 0.0f;
     }
 
-    /* 条件抗饱和：误差继续推动各自输出饱和时冻结该环谐振状态。
-     * 误差历史仍更新，避免恢复计算时使用过期误差。
-     */
-    if (voltage_error * (voltage_qpr_raw - current_reference) <= 0.0f)
-    {
-        control->voltage_resonant_r = voltage_resonant_next;
-        control->voltage_resonant_q = voltage_quadrature_next;
-    }
-    control->modulation = QPR_Clamp(modulation_raw, QPR_MODULATION_LIMIT);
-    if ((current_error * (qpr_raw - correction) <= 0.0f) &&
-        ((modulation_raw == control->modulation) ||
-         (current_error * (bridge_voltage - control->modulation * dc_bus_v) <= 0.0f)))
-    {
-        control->resonant_r = resonant_next;
-        control->resonant_q = quadrature_next;
-    }
-    control->voltage_qpr_unlimited_a = voltage_qpr_raw;
-    if (voltage_qpr_raw != current_reference) control->voltage_qpr_saturation_count++;
-    control->voltage_error_previous_v = voltage_error;
+    /* 与原模型一致：状态保存未饱和结果。这里没有冒充硬件过流保护。 */
+    control->voltage_error_previous_v = voltage_error_compensated;
     control->current_error_previous_a = current_error;
     control->current_reference_a = current_reference;
+    control->resonant_r = resonant_next;
+    control->resonant_q = quadrature_next;
     control->voltage_error_v = voltage_error;
+    control->voltage_error_compensated_v = voltage_error_compensated;
     control->current_error_a = current_error;
     control->qpr_unlimited_v = qpr_raw;
     control->qpr_correction_v = correction;
     control->bridge_reference_v = bridge_voltage;
+    control->modulation = QPR_Clamp(modulation_raw, QPR_MODULATION_LIMIT);
     if (qpr_raw != correction) control->qpr_saturation_count++;
     if (modulation_raw != control->modulation) control->modulation_saturation_count++;
     return control->modulation;
@@ -317,10 +342,11 @@ float QPR_ControlOpenLoopStep(QPR_Control *control, float sine_reference,
     control->current_error_previous_a = 0.0f;
     control->resonant_r = 0.0f;
     control->resonant_q = 0.0f;
-    control->voltage_resonant_r = 0.0f;
-    control->voltage_resonant_q = 0.0f;
-    control->voltage_qpr_unlimited_a = 0.0f;
     control->voltage_error_v = 0.0f;
+    control->voltage_error_dc_v = 0.0f;
+    control->voltage_error_compensated_v = 0.0f;
+    control->voltage_error_dc_sum_v = 0.0f;
+    control->voltage_error_dc_count = 0U;
     control->current_reference_a = 0.0f;
     control->current_error_a = 0.0f;
     control->qpr_unlimited_v = 0.0f;

@@ -3,29 +3,27 @@
 
 #include <stdint.h>
 
-/* 双 QPR：G(s)=Kp+2*Kr*Wc*s/(s*s+2*Wc*s+W0*W0)。
- * 外环增益单位 A/V，内环增益单位 V/A；Wc 单位 rad/s。
- * 外环是初始调试参数，尚未经实物整定。电流参考限幅不是硬件过流保护。
- */
-#define QPR_VOLTAGE_KP_A_PER_V         0.1f
-#define QPR_VOLTAGE_KR_A_PER_V         0.01f
-#define QPR_VOLTAGE_WC_RAD_S           5.0f
-#define QPR_CURRENT_REFERENCE_LIMIT_A  3.5f
-#define QPR_CURRENT_KP_V_PER_A         1.0f
-#define QPR_CURRENT_KR_V_PER_A         1.6f
-#define QPR_CURRENT_WC_RAD_S           5.0f
-/* 保留内环旧参数名，兼容从机电流环调用。 */
-#define QPR_KP                         QPR_CURRENT_KP_V_PER_A
-#define QPR_KR                         QPR_CURRENT_KR_V_PER_A
-#define QPR_WC_RAD_S                   QPR_CURRENT_WC_RAD_S
+/* singlephase.slx / Digital PR，Wc 的单位是 rad/s，不是 Hz。 */
+#define QPR_KP                         1.0f
+#define QPR_KR                         1.6f
+#define QPR_WC_RAD_S                   5.0f
 #define QPR_FREQUENCY_HZ               50.0f
+#define QPR_VIRTUAL_L_H                0.001f
+#define QPR_VIRTUAL_R_OHM              0.01f
 #define QPR_CORRECTION_LIMIT_V         5.0f
 
-/* 用户设定工作点：48 V 母线，32 Vrms（峰值约 45.2548 V）。 */
+/* 电压互感器不反馈输出直流：在虚拟阻抗前去掉误差的缓慢直流分量。
+ * 每个 50 Hz 周期收集一次全速均值（20 kHz 时为 400 点），以 0.2 s
+ * 时间常数平滑更新；不是把每拍误差清零，也不替代电流采样零偏标定。
+ */
+#define QPR_VOLTAGE_ERROR_DC_COMPENSATION_ENABLE  1U
+#define QPR_VOLTAGE_ERROR_DC_TRACK_TIME_S         0.2f
+
+/* 当前默认工作点：48 V 母线，24 Vrms（峰值约 33.9411 V）。 */
 #define QPR_DEFAULT_DC_BUS_V           48.0f
 #define QPR_DEFAULT_REFERENCE_PEAK_V   (24.0f * 1.41421356237f)
 #define QPR_MODULATION_LIMIT           0.95f  /* 32 Vrms / 48 V 所需调制度约 0.9428 */
-#define QPR_REFERENCE_SLEW_V_PER_S      60.0f  /* 从 0 到 45.2548 V 峰值约需 0.754 s */
+#define QPR_REFERENCE_SLEW_V_PER_S      60.0f  /* 从 0 到 33.9411 V 峰值约需 0.566 s */
 
 #define QPR_FAULT_NONE                 0U
 #define QPR_FAULT_CONFIGURATION        (1UL << 0)
@@ -36,35 +34,36 @@ typedef struct
 {
     /* 系数只在初始化时计算；中断中全部使用单精度乘加。 */
     float sample_period_s;
-    float voltage_resonant_decay;
-    float voltage_resonant_b;
-    float voltage_resonant_g;
-    float voltage_resonant_h;
+    float virtual_decay;
+    float virtual_b;
     float resonant_decay;
     float resonant_b;
     float resonant_g;
     float resonant_h;
+    float voltage_error_dc_alpha;
+    float voltage_error_dc_mean_scale;
+    uint32_t voltage_error_dc_window_samples;
 
-    float voltage_error_previous_v;
+    float voltage_error_previous_v;  /* 上一拍补偿后的误差，供 Tustin 使用。 */
     float current_error_previous_a;
     float resonant_r;
     float resonant_q;
-    float voltage_resonant_r; /* 外环谐振输出，A */
-    float voltage_resonant_q;
 
     /* 同一控制拍的观测量，可在 Keil Watch 中展开查看。 */
     float reference_peak_v;
     float reference_v;
-    float voltage_error_v;
+    float voltage_error_v;              /* 原始参考-反馈，V；遥测仍保留此量。 */
+    float voltage_error_dc_v;           /* 估计的直流误差，V。 */
+    float voltage_error_compensated_v;  /* 原始误差-直流估计，虚拟阻抗输入，V。 */
+    float voltage_error_dc_sum_v;
+    uint32_t voltage_error_dc_count;
     float current_reference_a;
-    float voltage_qpr_unlimited_a;
     float current_error_a;
     float qpr_unlimited_v;
     float qpr_correction_v;
     float bridge_reference_v;
     float modulation;
     uint32_t qpr_saturation_count;
-    uint32_t voltage_qpr_saturation_count;
     uint32_t modulation_saturation_count;
     uint32_t fault_flags;
     uint8_t initialized;

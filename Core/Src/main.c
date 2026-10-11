@@ -74,7 +74,7 @@
 
 /* USER CODE BEGIN PV */
 uint16_t Period;
-/* Keil Watch：目标峰值约 45.2548 V，对应 32 Vrms；本板暂未配置母线 ADC。 */
+/* Keil Watch：默认目标峰值约 33.9411 V，对应 24 Vrms；本板暂未配置母线 ADC。 */
 /* 默认主机开环、从机关断；参考幅值保持原工程设定。 */
 /* 1：QPR 闭环；0：正弦开环输出，不是停机/关断栅极。 */
 volatile uint8_t voltage_closed_loop_enable = 0U;
@@ -117,7 +117,7 @@ volatile float adc_sample_voltage;       /* 电压采样通道的 ADC 差分电�
 volatile float adc_sample_current;       /* 电流采样通道的 ADC 差分电压，V，尚未换算为 A */
 volatile float true_voltage;             /* 瞬时电压，V */
 volatile float true_current;             /* 滤波电感瞬时电流，A（电容分流之前） */
-volatile float voltage_gain = 12.5f;       /* 电压采样通道的增益，V/V */
+volatile float voltage_gain = 12.8f;       /* 电压采样通道的增益，V/V */
 volatile float cksr6_current_gain = 2.400384f;   /* 电流采样通道的增益，A/V */
 volatile uint32_t adc_sample_count;      /* ADC1 DMA 完成回调次数 */
 /* ADC4：PE14(INP)-PE15(INN)，独立的32位单字循环DMA缓冲。 */
@@ -142,7 +142,7 @@ volatile float vofa_ch5;
 volatile float vofa_ch6;
 volatile float vofa_ch7;
 /* 均值窗口只由 ADC ISR 访问，单精度累加使用 M4F 硬件浮点。 */
-static float vofa_mean_sum[5];
+static float vofa_mean_sum[6];
 static uint32_t vofa_mean_count;
 static uint8_t vofa_mean_mode;
 volatile uint32_t vofa_mean_window_count;
@@ -446,7 +446,7 @@ static void VOFA_AccumulateMean(uint8_t closed_loop)
 
     if (closed_loop != vofa_mean_mode)
     {
-        for (i = 0U; i < 5U; ++i) vofa_mean_sum[i] = 0.0f;
+        for (i = 0U; i < 6U; ++i) vofa_mean_sum[i] = 0.0f;
         vofa_mean_count = 0U;
         vofa_mean_mode = closed_loop;
         vofa_frame_ready = 0U; /* 丢弃尚未取走的旧模式结果。 */
@@ -457,6 +457,7 @@ static void VOFA_AccumulateMean(uint8_t closed_loop)
     vofa_mean_sum[2] += true_current;
     vofa_mean_sum[3] += qpr_control.resonant_r;
     vofa_mean_sum[4] += qpr_control.qpr_unlimited_v;
+    vofa_mean_sum[5] += qpr_control.voltage_error_compensated_v;
     vofa_mean_count++;
     if (vofa_mean_count < VOFA_MEAN_SAMPLE_COUNT) return;
 
@@ -466,11 +467,13 @@ static void VOFA_AccumulateMean(uint8_t closed_loop)
     vofa_ch3 = vofa_mean_sum[2] * scale; /* 平均实测电流，A */
     vofa_ch4 = vofa_mean_sum[3] * scale; /* 平均谐振项，V */
     vofa_ch5 = vofa_mean_sum[4] * scale; /* 平均未限幅 QPR 输出，V */
-    vofa_ch6 = vofa_ch2 - vofa_ch3; /* 平均电流跟踪误差，A */
+    vofa_ch6 = vofa_mean_sum[5] * scale - QPR_VIRTUAL_R_OHM * vofa_ch2;
     /* CH7始终为最近一次完成的辅助电流样本，不随CH1~6切换为均值。 */
     vofa_ch7 = true_aux_current;
-    /* 双 QPR 已移除虚拟阻抗，均值模式 CH6 改为电流跟踪误差。 */
-    for (i = 0U; i < 5U; ++i) vofa_mean_sum[i] = 0.0f;
+    /* CH6 使用补偿后的误差计算虚拟阻抗稳态残差(V)，动态时可非零。
+     * CH1仍为原始误差均值；开环不适用此关系。
+     */
+    for (i = 0U; i < 6U; ++i) vofa_mean_sum[i] = 0.0f;
     vofa_mean_count = 0U;
     vofa_mean_window_count++;
     vofa_frame_ready = 1U;
@@ -751,9 +754,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
             }
             vofa_ch1 = voltage_reference_v;  /* CH1：参考电压，V */
             vofa_ch2 = true_voltage;         /* CH2：输出电压，V */
-            vofa_ch3 =  qpr_control.current_reference_a;  /* CH3：电流参考，A */
+            vofa_ch3 = qpr_control.current_reference_a;  /* CH3：补偿前原始电流参考，A */
             vofa_ch4 =   true_current;         /* CH4：滤波电感电流，A */
-            vofa_ch5 = qpr_control.qpr_unlimited_v;  /* CH5：未限幅的 QPR 校正电压，V */
+            vofa_ch5 = qpr_control.bridge_reference_v;  /* CH5：未限幅的 QPR 校正电压，V */
             vofa_ch6 = qpr_control.qpr_correction_v;  /* CH6：限幅后的 QPR 校正电压，V */
             /* 主机不等待ADC4：此值可能比CH1~6早一个采样周期。 */
             vofa_ch7 = true_aux_current;             /* CH7：辅助电感电流，A */
