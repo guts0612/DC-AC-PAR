@@ -1,0 +1,19 @@
+                     source: 'D:/download/vofa/母线电压.csv'
+             matlab_version: '23.2.0.2365128 (R2023b)'
+                    channel: 7
+                    samples: 49802
+                 mean_bus_v: 47.4787
+               median_bus_v: 47.4961
+                  std_bus_v: 0.4980
+                  min_bus_v: 45.9844
+                  max_bus_v: 48.9023
+            reference_bus_v: 47.8490
+                   old_gain: 24
+                   new_gain: 24.1872
+                 gain_delta: 0.1872
+        gain_change_percent: 0.7799
+    raw_zero_code_preserved: 16
+                     vref_v: 3
+       corrected_mean_bus_v: 47.8490
+              block_means_v: [47.4420 47.4466 47.4543 47.4446 47.4522 47.4630 47.4634 47.4568 47.4591 47.4960 47.4884 47.4899 47.5013 47.4848 47.4842 47.4957 ... ] (1x20 double)
+

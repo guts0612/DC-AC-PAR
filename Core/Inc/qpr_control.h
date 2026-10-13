@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 /* singlephase.slx / Digital PR，Wc 的单位是 rad/s，不是 Hz。 */
-#define QPR_KP                         1.0f
-#define QPR_KR                         1.6f
+#define QPR_KP                         1.3f
+#define QPR_KR                         10.0f
 #define QPR_WC_RAD_S                   5.0f
 #define QPR_FREQUENCY_HZ               50.0f
 #define QPR_VIRTUAL_L_H                0.001f
@@ -19,8 +19,7 @@
 #define QPR_VOLTAGE_ERROR_DC_COMPENSATION_ENABLE  1U
 #define QPR_VOLTAGE_ERROR_DC_TRACK_TIME_S         0.2f
 
-/* 当前默认工作点：48 V 母线，24 Vrms（峰值约 33.9411 V）。 */
-#define QPR_DEFAULT_DC_BUS_V           48.0f
+/* 默认输出参考：24 Vrms（峰值约 33.9411 V）；母线电压由 ADC3 实测。 */
 #define QPR_DEFAULT_REFERENCE_PEAK_V   (24.0f * 1.41421356237f)
 #define QPR_MODULATION_LIMIT           0.95f  /* 32 Vrms / 48 V 所需调制度约 0.9428 */
 #define QPR_REFERENCE_SLEW_V_PER_S      60.0f  /* 从 0 到 33.9411 V 峰值约需 0.566 s */
@@ -74,10 +73,10 @@ uint8_t QPR_ControlInit(QPR_Control *control, float sample_frequency_hz);
 /* 保留系数，清除动态状态、斜坡、统计及运行故障。 */
 void QPR_ControlReset(QPR_Control *control);
 /*
- * 每次 ADC1 DMA 完成调用一次。
+ * 每次 ADC1/2 与 ADC3/4 两组 DMA 样本配齐后调用一次。
  * sine_reference: 50 Hz 单位正弦；reference_peak_v: 目标峰值，非 RMS。
  * voltage_v: 已标定输出电压；inductor_current_a: 电容分流之前的电感电流。
- * dc_bus_v: 实际母线值；本板尚无母线 ADC，main.c 使用用户设定值。
+ * dc_bus_v: ADC3 差分采样换算的本拍实际母线电压，单位 V。
  * 返回值为无量纲调制度 m；本函数不访问 ADC、PWM 或 UART。
  */
 float QPR_ControlStep(QPR_Control *control, float sine_reference,

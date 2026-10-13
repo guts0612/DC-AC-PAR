@@ -17,7 +17,7 @@ harness = r"""
 #include <stdio.h>
 __COUNT__
 static struct {float reference_v,current_reference_a,resonant_r,qpr_unlimited_v;} qpr_control;
-static float true_voltage,true_current,true_aux_current,vofa_mean_sum[5];
+static float true_voltage,true_current,true_aux_current,dc_bus_voltage_v,vofa_mean_sum[6];
 static float vofa_ch1,vofa_ch2,vofa_ch3,vofa_ch4,vofa_ch5,vofa_ch6,vofa_ch7;
 static uint32_t vofa_mean_count,vofa_mean_window_count,vofa_overwrite_count;
 static uint8_t vofa_mean_mode,vofa_frame_ready;
@@ -29,6 +29,7 @@ static void sample(unsigned n, uint8_t mode) {
     qpr_control.current_reference_a = 2.0f;
     true_current = 0.25f;
     true_aux_current = (float)n * 0.01f;
+    dc_bus_voltage_v = 48.0f + ((n % 10 == 0) ? 9.0f : -1.0f);
     qpr_control.resonant_r = -0.5f;
     qpr_control.qpr_unlimited_v = 1.25f;
     VOFA_AccumulateMean(mode);
@@ -43,7 +44,7 @@ int main(void) {
     assert(fabsf(vofa_ch3-0.25f)<0.00001f);
     assert(fabsf(vofa_ch4+0.5f)<0.00001f);
     assert(fabsf(vofa_ch5-1.25f)<0.00001f);
-    assert(fabsf(vofa_ch6-1.75f)<0.00001f);
+    assert(fabsf(vofa_ch6-48.0f)<0.00001f); /* CH6 averages measured bus, including ripple. */
     assert(fabsf(vofa_ch7-3.99f)<0.00001f); /* CH7 is latest, not averaged. */
     for(unsigned n=0;n<400;n++) sample(n,1);
     assert(vofa_overwrite_count==1 && vofa_mean_window_count==2);

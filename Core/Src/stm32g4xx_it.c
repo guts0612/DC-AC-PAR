@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "key.h"
+#include "adc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +58,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
-extern DMA_HandleTypeDef hdma_adc4;
+extern DMA_HandleTypeDef hdma_adc3;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -222,10 +223,27 @@ void DMA1_Channel2_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel2_IRQn 0 */
 
   /* USER CODE END DMA1_Channel2_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_adc4);
+  HAL_DMA_IRQHandler(&hdma_adc3);
   /* USER CODE BEGIN DMA1_Channel2_IRQn 1 */
 
   /* USER CODE END DMA1_Channel2_IRQn 1 */
+}
+
+/* DMA和ADC溢出均进入同一故障关断路径。 */
+void ADC1_2_IRQHandler(void)
+{
+  HAL_ADC_IRQHandler(&hadc1);
+  HAL_ADC_IRQHandler(&hadc2);
+}
+
+void ADC3_IRQHandler(void)
+{
+  HAL_ADC_IRQHandler(&hadc3);
+}
+
+void ADC4_IRQHandler(void)
+{
+  HAL_ADC_IRQHandler(&hadc4);
 }
 
 /* USER CODE BEGIN 1 */

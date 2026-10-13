@@ -55,10 +55,13 @@
 #define VOFA_MEAN_SAMPLE_COUNT     400U
 #define VOFA_UART_TIMEOUT_MS       5U
 
-#define VOLTAGE_ZERO_V (0.117701899f)
-#define CURRENT_ZERO_V (-0.024201973f)
+#define VOLTAGE_ZERO_CODE (-3)
+#define CURRENT_ZERO_CODE (-8)
 /* 辅助电流零偏必须单独实测，不能沿用主机通道的标定结果。 */
-#define AUX_CURRENT_ZERO_V (0.033564952f)
+#define AUX_CURRENT_ZERO_CODE (-15)
+/* 母线零偏单位为换算后的 V；24=(24k+24k)/2k。 */
+#define DC_BUS_ZERO_CODE (16)
+#define DC_BUS_MIN_CONTROL_V 1.0f
 
 #if VOFA_SAMPLE_DIV < 1U
 #error "VOFA_SAMPLE_DIV must be at least 1"
@@ -74,12 +77,14 @@
 
 /* USER CODE BEGIN PV */
 uint16_t Period;
-/* Keil Watch：默认目标峰值约 33.9411 V，对应 24 Vrms；本板暂未配置母线 ADC。 */
+/* Keil Watch：默认目标峰值约 33.9411 V，对应 24 Vrms；母线由 ADC3 实测。 */
 /* 默认主机开环、从机关断；参考幅值保持原工程设定。 */
 /* 1：QPR 闭环；0：正弦开环输出，不是停机/关断栅极。 */
 volatile uint8_t voltage_closed_loop_enable = 0U;
 volatile float voltage_reference_peak_v = QPR_DEFAULT_REFERENCE_PEAK_V;
-volatile float dc_bus_voltage_v = QPR_DEFAULT_DC_BUS_V;
+volatile uint8_t dc_bus_ready;
+volatile uint32_t adc_pair_error_count;
+static uint8_t adc12_ready, adc34_ready;
 volatile float voltage_reference_v;
 /* 展开 qpr_control 可查看两环误差、校正电压、限幅次数和故障位。 */
 QPR_Control qpr_control;
@@ -90,7 +95,7 @@ volatile uint8_t slave_enabled = 0U;
 volatile uint32_t slave_fault_flags;
 volatile float slave_current_ratio = 1.0f;
 volatile float slave_ratio_applied;
-volatile float slave_dc_bus_voltage_v = QPR_DEFAULT_DC_BUS_V;
+volatile float slave_dc_bus_voltage_v; /* 初始为0，由ADC3采样更新，单位V。 */
 volatile float slave_modulation;
 volatile uint32_t slave_update_count;
 #define SLAVE_OUTPUTS (HRTIM_OUTPUT_TC1 | HRTIM_OUTPUT_TC2 | HRTIM_OUTPUT_TD1 | HRTIM_OUTPUT_TD2)
@@ -120,13 +125,18 @@ volatile float true_current;             /* 滤波电感瞬时电流，A（电�
 volatile float voltage_gain = 12.8f;       /* 电压采样通道的增益，V/V */
 volatile float cksr6_current_gain = 2.400384f;   /* 电流采样通道的增益，A/V */
 volatile uint32_t adc_sample_count;      /* ADC1 DMA 完成回调次数 */
-/* ADC4：PE14(INP)-PE15(INN)，独立的32位单字循环DMA缓冲。 */
-volatile uint32_t adc4_word;
+/* ADC3/4 CDR：低16位为母线， 高16位为辅助电流。 */
+volatile uint32_t adc34_word;
+volatile uint16_t adc_bus_voltage_raw;
 volatile uint16_t adc_aux_current_raw;
+volatile int16_t adc_bus_voltage_code;
 volatile int16_t adc_aux_current_code;
+volatile float adc_sample_bus_voltage;
 volatile float adc_sample_aux_current;   /* 去中点、减零偏后的ADC差分电压，V */
+volatile float dc_bus_voltage_v; /* 本拍实测母线电压，V */
 volatile float true_aux_current;         /* 辅助逆变器电感瞬时电流，A */
 /* 暂按与主机相同的CKSR6链路换算，实际比例/极性需独立标定。 */
+volatile float dc_bus_voltage_gain = 24.18717f;
 volatile float aux_current_gain = 2.400384f;
 volatile uint32_t adc4_sample_count;
 volatile uint32_t adc4_error_count;
@@ -219,7 +229,7 @@ static void Slave_Stop(uint32_t fault)
     slave_modulation = 0.0f;
 }
 
-/* 只由ADC4回调执行；主机控制不等待从机。故障锁存后重启才能再接入。 */
+/* 两组样本配齐并完成主机控制后执行；故障锁存后重启才能再接入。 */
 static void Slave_ControlUpdate(void)
 {
     float reference, modulation, ratio, master_current, output_voltage;
@@ -282,7 +292,7 @@ static void Slave_ControlUpdate(void)
         Slave_Stop(SLAVE_FAULT_CONTROL);
         return;
     }
-    /* 短临界区防止主机已关断后，本低优先级回调重新打开从机。 */
+    /* 短临界区保护从机输出接入。 */
     primask = __get_PRIMASK();
     __disable_irq();
     if (adc_sample_count != sample_sequence)
@@ -381,11 +391,7 @@ static void HRTIM_SPWM_Init(void)
     }
 
     __HAL_HRTIM_MASTER_CLEAR_FLAG(&hhrtim1, HRTIM_MASTER_FLAG_MREP);
-    if (HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TA1 | HRTIM_OUTPUT_TA2 |
-                                    HRTIM_OUTPUT_TB1 | HRTIM_OUTPUT_TB2) != HAL_OK)
-    {
-        Error_Handler();
-    }
+    /* 先启动采样；第一组有效母线样本到齐后才开启 A/B 栅极。 */
     /* M/A/B/C/D计数器均为0，一次MCR写入同步启动；C/D输出仍禁用。
      * 不使用“未开计数器时的软件复位”：RM0440 p895 说明此时复位请求无效。
      */
@@ -413,6 +419,10 @@ static void ADC_Sampling_Init(void)
     {
         Error_Handler();
     }
+    if (HAL_ADCEx_Calibration_Start(&hadc3, ADC_DIFFERENTIAL_ENDED) != HAL_OK)
+    {
+        Error_Handler();
+    }
     if (HAL_ADCEx_Calibration_Start(&hadc4, ADC_DIFFERENTIAL_ENDED) != HAL_OK)
     {
         Error_Handler();
@@ -425,14 +435,17 @@ static void ADC_Sampling_Init(void)
     }
     /* 一个 32 位字没有需要处理的半缓冲，保留 TC/TE，关闭无用的 HT 中断。 */
     __HAL_DMA_DISABLE_IT(hadc1.DMA_Handle, DMA_IT_HT);
-    /* ADC4独立启动后等待同一个HRTIM_TRG1下降沿，不软件顺序触发。
-     * 主机DMA和控制回调保持原路径，不等待ADC4完成。
-     */
-    if (HAL_ADC_Start_DMA(&hadc4, (uint32_t *)&adc4_word, 1U) != HAL_OK)
+    /* 两组主ADC同时等待HRTIM_TRG1下降沿，ADC4只由ADC3硬件带动。 */
+    if (HAL_ADCEx_MultiModeStart_DMA(&hadc3, (uint32_t *)&adc34_word, 1U) != HAL_OK)
     {
         Error_Handler();
     }
-    __HAL_DMA_DISABLE_IT(hadc4.DMA_Handle, DMA_IT_HT);
+    __HAL_DMA_DISABLE_IT(hadc3.DMA_Handle, DMA_IT_HT);
+    /* 双模式的从ADC同样监测溢出，避免DMA中断延迟时静默丢样本。 */
+    __HAL_ADC_CLEAR_FLAG(&hadc2, ADC_FLAG_OVR);
+    __HAL_ADC_CLEAR_FLAG(&hadc4, ADC_FLAG_OVR);
+    __HAL_ADC_ENABLE_IT(&hadc2, ADC_IT_OVR);
+    __HAL_ADC_ENABLE_IT(&hadc4, ADC_IT_OVR);
 }
 
 #if VOFA_OUTPUT_ENABLE
@@ -457,7 +470,7 @@ static void VOFA_AccumulateMean(uint8_t closed_loop)
     vofa_mean_sum[2] += true_current;
     vofa_mean_sum[3] += qpr_control.resonant_r;
     vofa_mean_sum[4] += qpr_control.qpr_unlimited_v;
-    vofa_mean_sum[5] += qpr_control.voltage_error_compensated_v;
+    vofa_mean_sum[5] += dc_bus_voltage_v;
     vofa_mean_count++;
     if (vofa_mean_count < VOFA_MEAN_SAMPLE_COUNT) return;
 
@@ -467,12 +480,9 @@ static void VOFA_AccumulateMean(uint8_t closed_loop)
     vofa_ch3 = vofa_mean_sum[2] * scale; /* 平均实测电流，A */
     vofa_ch4 = vofa_mean_sum[3] * scale; /* 平均谐振项，V */
     vofa_ch5 = vofa_mean_sum[4] * scale; /* 平均未限幅 QPR 输出，V */
-    vofa_ch6 = vofa_mean_sum[5] * scale - QPR_VIRTUAL_R_OHM * vofa_ch2;
+    vofa_ch6 = vofa_mean_sum[5] * scale; /* CH6：平均实测母线电压，V */
     /* CH7始终为最近一次完成的辅助电流样本，不随CH1~6切换为均值。 */
     vofa_ch7 = true_aux_current;
-    /* CH6 使用补偿后的误差计算虚拟阻抗稳态残差(V)，动态时可非零。
-     * CH1仍为原始误差均值；开环不适用此关系。
-     */
     for (i = 0U; i < 6U; ++i) vofa_mean_sum[i] = 0.0f;
     vofa_mean_count = 0U;
     vofa_mean_window_count++;
@@ -582,6 +592,7 @@ int main(void)
   MX_ADC1_Init();
   MX_ADC2_Init();
   MX_UART4_Init();
+  MX_ADC3_Init();
   MX_ADC4_Init();
   /* USER CODE BEGIN 2 */
   Key_Init();
@@ -672,47 +683,71 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
     float modulation;
     uint8_t closed_loop;
 
-    if (hadc->Instance == ADC4)
+    /* 两个DMA同抢占优先级，回调不能彼此打断。先来的只发布快照，
+     * 后来的运行一次控制；不轮询等待，也不使用上一拍母线。
+     * 同一组连续完成两次而另一组未到，禁止继续配对并关断全部输出。
+     */
+    if (hadc->Instance == ADC3)
     {
-        /* 独立低优先级回调做从机采样和电流环，不调用主机闭环、不推进相位。
-         * CH7使用最近完成值；不能把回调先后当成采样孔径先后。
-         */
-        sample = adc4_word;
-        adc_aux_current_raw = (uint16_t)(sample & 0x0FFFU);
-        adc_aux_current_code = ADC_DiffRawToSigned(adc_aux_current_raw);
-        adc_sample_aux_current = ((adc_aux_current_code / 2048.0f) * vref_voltage);
-        true_aux_current = (adc_sample_aux_current * aux_current_gain)- AUX_CURRENT_ZERO_V;
+        if (adc34_ready != 0U) { adc_pair_error_count++; Error_Handler(); return; }
+        sample = adc34_word;
+        adc_bus_voltage_raw = (uint16_t)(sample & 0x0FFFU);
+        adc_aux_current_raw = (uint16_t)((sample >> 16) & 0x0FFFU);
+        adc_bus_voltage_code = ADC_DiffRawToSigned(adc_bus_voltage_raw)- DC_BUS_ZERO_CODE;
+        adc_sample_bus_voltage = (adc_bus_voltage_code / 2048.0f) * vref_voltage;
+        dc_bus_voltage_v = adc_sample_bus_voltage * dc_bus_voltage_gain ;
+        /* 两台逆变器共用这条直流母线。 */
+        slave_dc_bus_voltage_v = dc_bus_voltage_v;
+        adc_aux_current_code = ADC_DiffRawToSigned(adc_aux_current_raw)- AUX_CURRENT_ZERO_CODE;
+        adc_sample_aux_current = (adc_aux_current_code / 2048.0f) * vref_voltage;
+        true_aux_current = adc_sample_aux_current * aux_current_gain;
         adc4_sample_count++;
-        Slave_ControlUpdate();
-        return;
+        adc34_ready = 1U;
     }
-
-    if (hadc->Instance != ADC1)
+    else if (hadc->Instance == ADC1)
     {
+        if (adc12_ready != 0U) { adc_pair_error_count++; Error_Handler(); return; }
+        sample = adc12_word;
+        adc_voltage_raw = (uint16_t)(sample & 0x0FFFU);
+        adc_current_raw = (uint16_t)((sample >> 16) & 0x0FFFU);
+        adc_voltage_code = ADC_DiffRawToSigned(adc_voltage_raw)- VOLTAGE_ZERO_CODE;
+        adc_current_code = ADC_DiffRawToSigned(adc_current_raw)- CURRENT_ZERO_CODE;
+        adc_sample_voltage = -(adc_voltage_code / 2048.0f) * vref_voltage;
+        adc_sample_current = (adc_current_code / 2048.0f) * vref_voltage;
+        true_voltage = adc_sample_voltage * voltage_gain;
+        true_current = adc_sample_current * cksr6_current_gain;
+        adc_sample_count++;
+        adc12_ready = 1U;
+    }
+    else return;
+    if ((adc12_ready == 0U) || (adc34_ready == 0U)) return;
+    adc12_ready = 0U;
+    adc34_ready = 0U;
+    if (adc_sample_count != adc4_sample_count)
+    {
+        adc_pair_error_count++;
+        Error_Handler();
         return;
     }
-
-    /* 一次读取 CDR 快照，避免拆分两通道时跨到下一次 DMA 写入。 */
-    sample = adc12_word;
-    adc_voltage_raw = (uint16_t)(sample & 0x0FFFU);
-    adc_current_raw = (uint16_t)((sample >> 16) & 0x0FFFU);
-    adc_voltage_code = ADC_DiffRawToSigned(adc_voltage_raw);
-    adc_current_code = ADC_DiffRawToSigned(adc_current_raw);
-    adc_sample_voltage = -((adc_voltage_code/2048.0f)* vref_voltage);
-    adc_sample_current = ((adc_current_code/2048.0f)* vref_voltage);
-    true_voltage =((adc_sample_voltage ) * voltage_gain)- VOLTAGE_ZERO_V;
-    true_current =((adc_sample_current ) * cksr6_current_gain)- CURRENT_ZERO_V;
-    adc_sample_count++;
-    /* ADC4丢触发/停止更新时，最多允许落后两拍(100us)，关闭从机。 */
-    if (voltage_closed_loop_enable == 0U) Slave_Stop(0U);
-    else if ((slave_enabled != 0U) && ((adc_sample_count - adc4_sample_count) > 2U))
-        Slave_Stop(SLAVE_FAULT_ADC);
 
     /* Master 向上计数：170 MHz/8500=20 kHz；A/B完整三角波=20 kHz。
      * ISR 写下一拍的预装载值，下一谷底装载；每个50 Hz周期约400次更新。
      */
     closed_loop = (voltage_closed_loop_enable != 0U) ? 1U : 0U;
-    if (closed_loop != 0U)
+    /* 母线尚未上电时继续遥测，但不把0V送入除法或开启栅极。
+     * 低于1V时重置两环；母线恢复后主机从零幅值重新斜坡。
+     */
+    if (!(dc_bus_voltage_v >= DC_BUS_MIN_CONTROL_V))
+    {
+        HRTIM1->sCommonRegs.ODISR = HRTIM_OUTPUT_TA1 | HRTIM_OUTPUT_TA2 |
+                                  HRTIM_OUTPUT_TB1 | HRTIM_OUTPUT_TB2 | SLAVE_OUTPUTS;
+        dc_bus_ready = 0U;
+        Slave_Stop(0U);
+        QPR_ControlReset(&qpr_control);
+        QPR_ControlReset(&slave_qpr_control);
+        modulation = 0.0f;
+    }
+    else if (closed_loop != 0U)
     {
         /* 反馈必须用标定后的物理 V/A，不能用 ADC 端的差分电压。 */
         modulation = QPR_ControlStep(&qpr_control, arm_sin_f32(spwm_phase_rad),
@@ -730,11 +765,23 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
         Error_Handler();
     }
     HRTIM_SetModulation(modulation);
+    if ((dc_bus_voltage_v >= DC_BUS_MIN_CONTROL_V) && (dc_bus_ready == 0U))
+    {
+        /* 初次启动/恢复：先装载当前的零起步比较值，再打开主机输出。 */
+        if (HAL_HRTIM_SoftwareUpdate(&hhrtim1, HRTIM_TIMERUPDATE_A | HRTIM_TIMERUPDATE_B) != HAL_OK)
+        { Error_Handler(); return; }
+        if (HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TA1 | HRTIM_OUTPUT_TA2 |
+                                         HRTIM_OUTPUT_TB1 | HRTIM_OUTPUT_TB2) != HAL_OK)
+        { Error_Handler(); return; }
+        dc_bus_ready = 1U;
+    }
     /* 两种模式均连续推进相位；幅值斜坡由控制函数共用。 */
     spwm_phase_rad += phase_step_rad;
     if (spwm_phase_rad >= 2.0f * PI) spwm_phase_rad -= 2.0f * PI;
     voltage_reference_v = qpr_control.reference_v;
     spwm_update_count++;
+
+    Slave_ControlUpdate(); /* 本拍主从电流/母线已齐，固定主机先、从机后。 */
 
     /* ADC ISR 只计算控制和准备遥测；阻塞式串口发送仍在主循环。 */
 #if VOFA_OUTPUT_ENABLE
@@ -755,11 +802,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
             vofa_ch1 = voltage_reference_v;  /* CH1：参考电压，V */
             vofa_ch2 = true_voltage;         /* CH2：输出电压，V */
             vofa_ch3 = qpr_control.current_reference_a;  /* CH3：补偿前原始电流参考，A */
-            vofa_ch4 =   true_current;         /* CH4：滤波电感电流，A */
+            vofa_ch4 = true_current;         /* CH4：滤波电感电流，A */
             vofa_ch5 = qpr_control.bridge_reference_v;  /* CH5：未限幅的 QPR 校正电压，V */
-            vofa_ch6 = qpr_control.qpr_correction_v;  /* CH6：限幅后的 QPR 校正电压，V */
-            /* 主机不等待ADC4：此值可能比CH1~6早一个采样周期。 */
-            vofa_ch7 = true_aux_current;             /* CH7：辅助电感电流，A */
+            /* CH6/CH7来自与主机同一触发的ADC3/4快照。 */
+            vofa_ch6 = true_aux_current;             /* CH6：辅助电感电流，A */
+            vofa_ch7 = dc_bus_voltage_v;             /* CH7：实测直流母线电压，V */
+            
             vofa_frame_ready = 1U;
         }
     }
@@ -768,16 +816,11 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 
 void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
-    if (hadc->Instance == ADC4)
+    if ((hadc->Instance == ADC3) || (hadc->Instance == ADC4)) adc4_error_count++;
+    if ((hadc->Instance == ADC1) || (hadc->Instance == ADC2) ||
+        (hadc->Instance == ADC3) || (hadc->Instance == ADC4))
     {
-        /* ADC4故障只关从机；主机维持原控制路径。 */
-        adc4_error_count++;
-        Slave_Stop(SLAVE_FAULT_ADC);
-        return;
-    }
-    if ((hadc->Instance == ADC1) || (hadc->Instance == ADC2))
-    {
-        /* 采样/DMA 已报告错误时不能让功率级保持最后一次 PWM。 */
+        /* 母线和反馈均参与控制，任一组ADC/DMA错误都关断全部输出。 */
         Error_Handler();
     }
 }

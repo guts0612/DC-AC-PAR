@@ -1,0 +1,22 @@
+Dominant cycles per recorded sample:
+    0.0824    0.1574    0.1242    0.3090
+
+Indicative Hz ONLY if exact 2 kHz capture:
+  164.8930  314.7263  248.3434  618.0876
+
+ADC1 voltage: mean=-3.413236416 median=-4.0 std=15.873458 min=-35 max=34 offset=-3 residual=-0.413236416
+ADC2 current: mean=-7.579153448 median=-7.0 std=15.900852 min=-49 max=24 offset=-8 residual=0.420846552
+ADC4 auxiliary current: mean=-14.557949480 median=-14.0 std=9.729340 min=-41 max=9 offset=-15 residual=0.442050520
+ADC3 DC bus: mean=15.646299345 median=15.0 std=11.541399 min=-14 max=54 offset=16 residual=-0.353700655
+Samples=49802; correlation matrix:
+    1.0000   -0.0189    0.0636   -0.0639
+   -0.0189    1.0000    0.1410   -0.1827
+    0.0636    0.1410    1.0000   -0.2314
+   -0.0639   -0.1827   -0.2314    1.0000
+
+Block mean minima/maxima:
+   -5.2410   -8.3494  -14.9345   15.2048
+   -1.9755   -7.0096  -14.1992   16.0731
+
+Captured current/voltage noise ratios: 1.002 0.613
+The recording alone cannot isolate ADC role from differences in the analog input circuits.

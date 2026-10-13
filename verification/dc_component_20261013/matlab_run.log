@@ -1,0 +1,35 @@
+First bus <40V: sample 49650 (~24.824500 nominal seconds); last 10 samples:
+   -0.1125    9.1523    0.0774    4.6414
+   -0.0750   -7.4464    0.0738    3.5076
+    0.0187  -23.5519    0.0141    3.8973
+   -0.0938  -38.7597   -0.0422    3.9328
+         0  -52.7015   -0.0316    3.9682
+   -0.1688  -65.0249   -0.0316    3.5076
+    0.0750  -75.4216    0.0352    4.1808
+   -0.0750  -83.6489    0.0352    3.4722
+    0.2250  -89.4619   -0.0387    3.5430
+   -0.1500  -92.7268    0.0844    3.7202
+
+NORMAL-SUPPLY ONLY: 1241 cycles
+RMS 23.973038199 V; cycle range 23.727888916..24.188481341 V
+Voltage sensor DC 0.219409669 V; current ref DC -0.000367049 A; measured current DC 0.032844447 A
+Current ref cycle DC range -0.051077005..0.044811215 A
+Steady correction saturation 0.000000000%, max modulation 0.751405061
+Steady inferred mean DC estimator -0.219405801 V; compensated DC equivalent -0.000003670 V
+Samples=49802, complete cycles=1244, mean period=39.999988 samples
+Whole-record means [ref,v,iref,i,bridge,iaux,bus]:
+   -0.0003    0.2239   -0.0045    0.0332   -0.0344   -0.1868   47.4810
+
+Mean cycle fitted DC:
+   -0.0000    0.2245   -0.0138    0.0333   -0.0342   -0.1869   47.5144
+
+Mean fundamental RMS:
+   23.9997   23.9320    2.2504    2.1023   24.3205    0.2163    0.1120
+
+Output 23.941917..24.017907 Vrms (25-cycle blocks)
+Current ref DC -0.011254..0.007871 A (25-cycle blocks)
+Measured current DC 0.027859..0.037708 A (25-cycle blocks)
+Raw error mean -0.224488768 V; inferred compensated residual -0.000251211 V
+Correction range -5.000002..5.000002 V, saturation 0.263042%, modulation max 10.985669
+Voltage phase relative reference -1.490382 deg
+RMS/bus correlation -0.111243; RMS/irefDC correlation -0.062306

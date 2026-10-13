@@ -1,0 +1,9 @@
+Samples: 49802
+CH7 mean: 47.478724015 V
+CH7 standard deviation: 0.498026905 V
+Reference: 47.849000 V
+Old gain: 24.000000000
+New gain: 24.187170650
+Delta: +0.187170650
+Change: +0.779878 %
+Keep DC_BUS_ZERO_CODE=16 and vref_voltage=3.0 V unchanged.

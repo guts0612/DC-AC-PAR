@@ -1,0 +1,12 @@
+Source: D:\download\vofa\对源码的0点矫正.csv
+MATLAB: 23.2.0.2365128 (R2023b)
+Samples: 49802
+ADC1 voltage: mean=-3.079996787 median=-4.0 std=9.765321 min=-17 max=15 offset=-3 residual=-0.079996787
+#define VOLTAGE_ZERO_CODE (-3)
+ADC2 current: mean=153.219489177 median=145.0 std=121.183067 min=-75 max=393 offset=153 residual=0.219489177
+#define CURRENT_ZERO_CODE (153)
+ADC4 auxiliary current: mean=-63.926950725 median=-47.0 std=67.752502 min=-195 max=17 offset=-64 residual=0.073049275
+#define AUX_CURRENT_ZERO_CODE (-64)
+ADC3 DC bus: mean=-3.837857917 median=-5.0 std=9.557325 min=-24 max=23 offset=-4 residual=0.162142083
+#define DC_BUS_ZERO_CODE (-4)
+Offsets are candidates until all physical inputs are confirmed zero.

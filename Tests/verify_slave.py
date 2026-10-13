@@ -76,7 +76,7 @@ int main(void){
  assert(compares[0]==111 && compares[1]==222 && irq_mask==0);
  QPR_Control c;assert(QPR_ControlInit(&c,20000));
  assert(fabsf(QPR_CurrentStep(&c,0,0,24,48)-0.5f)<1e-6f);
- assert(c.voltage_error_previous_v==0 && c.voltage_resonant_g>0);
+ assert(c.voltage_error_previous_v==0 && c.resonant_g>0);
  for(unsigned i=0;i<1000;i++)QPR_CurrentStep(&c,100,0,0,48);
  assert(c.resonant_r==0 && c.modulation<=QPR_MODULATION_LIMIT);
  puts("PASS: startup/off, PB9/open interlock, zero-cross admission, soft sharing, toggle/disconnect, unchanged A/B writes, timing/overcurrent/NaN faults, PR feedforward and antiwindup");
