@@ -1,0 +1,431 @@
+
+FILE simulink/systems/system_root.xml
+{'BlockType': 'Reference', 'Name': 'Current Measurement', 'SID': '229'} {'SourceType': 'Current Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Current Measurement1', 'SID': '230'} {'SourceType': 'Current Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'DC 48V', 'SID': '121'} {'SourceType': 'DC Voltage Source', 'Amplitude': '48'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'DC 48V1', 'SID': '123'} {'SourceType': 'DC Voltage Source', 'Amplitude': '48'} SystemRef= []
+{'BlockType': 'Display', 'Name': 'Display', 'SID': '231'} {} SystemRef= []
+{'BlockType': 'Display', 'Name': 'Display1', 'SID': '232'} {} SystemRef= []
+{'BlockType': 'Display', 'Name': 'Display2', 'SID': '237'} {} SystemRef= []
+{'BlockType': 'Display', 'Name': 'Display3', 'SID': '243'} {} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'R1', 'SID': '195'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'R', 'Resistance': '12', 'Inductance': '0', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '3e-4', 'Setx0': 'off', 'InitialVoltage': '350'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'RMS', 'SID': '234'} {'SourceType': 'RMS', 'TrueRMS': 'on', 'Freq': '50', 'RMSInit': '0', 'Ts': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'RMS1', 'SID': '235'} {'SourceType': 'RMS', 'TrueRMS': 'on', 'Freq': '50', 'RMSInit': '0', 'Ts': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'RMS2', 'SID': '236'} {'SourceType': 'RMS', 'TrueRMS': 'on', 'Freq': '50', 'RMSInit': '0', 'Ts': '0'} SystemRef= []
+{'BlockType': 'Scope', 'Name': 'Scope', 'SID': '196'} {} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'THD1', 'SID': '242'} {'SourceType': 'THD', 'Freq': '50', 'Ts': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Voltage Measurement3', 'SID': '198'} {'SourceType': 'Voltage Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'powergui', 'SID': '50'} {'SourceType': 'PSB option menu block', 'SimulationMode': 'Discrete', 'SampleTime': '2e-7', 'frequency': '60', 'Iterations': '50', 'frequencyindice': '0', 'Pbase': '100e6', 'ErrMax': '1e-4', 'UnitsV': 'kV', 'UnitsW': 'MW', 'buscounter': '0', 'FunctionMessages': 'off', 'echomessages': 'off', 'EnableUseOfTLC': 'off', 'CurrentSourceSwitches': 'off', 'DisableSnubberDevices': 'off', 'DisableRonSwitches': 'off', 'DisableVfSwitches': 'off', 'DisplayEquations': 'off', 'AutomaticDiscreteSolvers': 'off', 'SolverType': 'Tustin/Backward Euler (TBE)', 'Interpol': 'off', 'ExternalGateDelay': 'off', 'methode': 'off', 'Ts': '100', 'x0status': 'blocks', 'SPID': 'on', 'SwTol': '0', 'HookPort': 'off', 'NonlinearTolerance': '1e-4', 'nMaxIteration': '100', 'ContinueOnMaxIteration': 'off', 'RestoreLinks': 'warning', 'ResistiveCurrentMeasurement': 'off', 'Frange': '[0:2:500]', 'Ylog': 'off', 'Xlog': 'on', 'ShowGrid': 'off', 'save': 'off', 'variable': 'ZData', 'structure': '0', 'ZoomFFT': 'off', 'StartTime': '0.0', 'cycles': '1', 'DisplayStyle': '1', 'fundamental': '60', 'FreqAxis': 'off', 'MaxFrequency': '1000', 'frequencyindicesteady': '1', 'RmsSteady': '1', 'display': 'off'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'r', 'SID': '122'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'R', 'Resistance': '0.05', 'Inductance': '0', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '2e-3', 'Setx0': 'on', 'InitialVoltage': '390'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'r1', 'SID': '193'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'R', 'Resistance': '0.05', 'Inductance': '0', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '2e-3', 'Setx0': 'on', 'InitialVoltage': '390'} SystemRef= []
+{'BlockType': 'SubSystem', 'Name': '主从均流', 'SID': '241'} {} SystemRef= [{'Ref': 'system_241'}]
+{'BlockType': 'SubSystem', 'Name': '逆变器1', 'SID': '92'} {} SystemRef= [{'Ref': 'system_92'}]
+{'BlockType': 'SubSystem', 'Name': '逆变器2', 'SID': '124'} {} SystemRef= [{'Ref': 'system_124'}]
+LINE [('Src', '122#rconn:1'), ('Dst', '121#rconn:1')]
+LINE [('Src', '121#lconn:1'), ('Dst', '92#lconn:2')]
+LINE [('Src', '122#lconn:1'), ('Dst', '92#lconn:1')]
+LINE [('Src', '193#lconn:1'), ('Dst', '124#lconn:1')]
+LINE [('Src', '193#rconn:1'), ('Dst', '123#rconn:1')]
+LINE [('Src', '123#lconn:1'), ('Dst', '124#lconn:2')]
+LINE [('Src', '195#lconn:1'), ('Src', '229#rconn:1'), ('Src', '230#rconn:1'), ('Src', '198#lconn:1')]
+LINE [('Src', '195#rconn:1'), ('Src', '198#lconn:2'), ('Src', '92#rconn:2'), ('Dst', '124#rconn:2')]
+LINE [('Src', '198#out:1'), ('Dst', '236#in:1'), ('Dst', '242#in:1'), ('Dst', '196#in:1')]
+LINE [('Src', '229#lconn:1'), ('Dst', '92#rconn:1')]
+LINE [('Src', '230#lconn:1'), ('Dst', '124#rconn:1')]
+LINE [('Src', '230#out:1'), ('Dst', '235#in:1')]
+LINE [('Src', '229#out:1'), ('Dst', '234#in:1')]
+LINE [('Src', '234#out:1'), ('Dst', '231#in:1')]
+LINE [('Src', '235#out:1'), ('Dst', '232#in:1')]
+LINE [('Src', '236#out:1'), ('Dst', '237#in:1')]
+LINE [('Src', '242#out:1'), ('Dst', '243#in:1')]
+
+FILE simulink/systems/system_241.xml
+{'BlockType': 'SubSystem', 'Name': 'Digital PR', 'SID': '4'} {'Kp': '1', 'Kr': '1.6', 'Wc': '5', 'Ts': '1/20000', 'Upper': '5', 'Lower': '-5'} SystemRef= [{'Ref': 'system_4'}]
+{'BlockType': 'SubSystem', 'Name': 'Digital PR1', 'SID': '127'} {'Kp': '1', 'Kr': '1.6', 'Wc': '5', 'Ts': '1/20000', 'Upper': '5', 'Lower': '-5'} SystemRef= [{'Ref': 'system_127'}]
+{'BlockType': 'Product', 'Name': 'Divide', 'SID': '13'} {'Inputs': '*/'} SystemRef= []
+{'BlockType': 'Product', 'Name': 'Divide1', 'SID': '136'} {'Inputs': '*/'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From1', 'SID': '238'} {'GotoTag': 'Udc'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From2', 'SID': '142'} {'GotoTag': 'IL2'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From4', 'SID': '18'} {'GotoTag': 'Vac'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From5', 'SID': '19'} {'GotoTag': 'IL'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From6', 'SID': '20'} {'GotoTag': 'Udc'} SystemRef= []
+{'BlockType': 'Gain', 'Name': 'Gain1', 'SID': '240'} {} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto1', 'SID': '147'} {'GotoTag': 'Q5'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto2', 'SID': '148'} {'GotoTag': 'Q6'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto3', 'SID': '106'} {'GotoTag': 'Q1'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto4', 'SID': '107'} {'GotoTag': 'Q2'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto5', 'SID': '108'} {'GotoTag': 'Q3'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto6', 'SID': '109'} {'GotoTag': 'Q4'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto7', 'SID': '149'} {'GotoTag': 'Q7'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto8', 'SID': '150'} {'GotoTag': 'Q8'} SystemRef= []
+{'BlockType': 'Scope', 'Name': 'Scope1', 'SID': '32'} {} SystemRef= []
+{'BlockType': 'Sin', 'Name': 'Sine Wave', 'SID': '39'} {'Amplitude': '24*sqrt(2)', 'Frequency': '2*pi*50', 'SampleTime': '0'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum', 'SID': '40'} {'Inputs': '|+-'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum1', 'SID': '41'} {'Inputs': '|+-'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum2', 'SID': '42'} {'Inputs': '|++'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum4', 'SID': '163'} {'Inputs': '|+-'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum5', 'SID': '164'} {'Inputs': '|++'} SystemRef= []
+{'BlockType': 'SubSystem', 'Name': '单极倍频调制', 'SID': '51'} {} SystemRef= [{'Ref': 'system_51'}]
+{'BlockType': 'SubSystem', 'Name': '单极倍频调制1', 'SID': '168'} {} SystemRef= [{'Ref': 'system_168'}]
+{'BlockType': 'TransferFcn', 'Name': '虚拟阻抗', 'SID': '88'} {'Denominator': '[0.001 0.01]'} SystemRef= []
+LINE [('Src', '168#out:4'), ('Dst', '150#in:1')]
+LINE [('Src', '168#out:3'), ('Dst', '149#in:1')]
+LINE [('Src', '168#out:1'), ('Dst', '147#in:1')]
+LINE [('Src', '39#out:1'), ('Dst', '42#in:2'), ('Dst', '40#in:1')]
+LINE [('Src', '51#out:4'), ('Dst', '109#in:1')]
+LINE [('Src', '19#out:1'), ('Dst', '240#in:1'), ('Dst', '41#in:2')]
+LINE [('Src', '41#out:1'), ('Dst', '4#in:1'), ('Dst', '32#in:1')]
+LINE [('Src', '127#out:1'), ('Dst', '164#in:1')]
+LINE [('Src', '51#out:3'), ('Dst', '108#in:1')]
+LINE [('Src', '51#out:2'), ('Dst', '107#in:1')]
+LINE [('Src', '13#out:1'), ('Dst', '51#in:1')]
+LINE [('Src', '4#out:1'), ('Dst', '42#in:1'), ('Dst', '32#in:2')]
+LINE [('Src', '40#out:1'), ('Dst', '88#in:1')]
+LINE [('Src', '51#out:1'), ('Dst', '106#in:1')]
+LINE [('Src', '42#out:1'), ('Dst', '13#in:1')]
+LINE [('Src', '164#out:1'), ('Dst', '136#in:1')]
+LINE [('Src', '136#out:1'), ('Dst', '168#in:1')]
+LINE [('Src', '142#out:1'), ('Dst', '163#in:2')]
+LINE [('Src', '88#out:1'), ('Dst', '41#in:1')]
+LINE [('Src', '168#out:2'), ('Dst', '148#in:1')]
+LINE [('Src', '20#out:1'), ('Dst', '13#in:2')]
+LINE [('Src', '163#out:1'), ('Dst', '127#in:1')]
+LINE [('Src', '238#out:1'), ('Dst', '136#in:2')]
+LINE [('Src', '18#out:1'), ('Dst', '164#in:2'), ('Dst', '40#in:2')]
+LINE [('Src', '240#out:1'), ('Dst', '163#in:1')]
+
+FILE simulink/systems/system_4.xml
+{'BlockType': 'Inport', 'Name': 'err', 'SID': '5'} {} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant', 'SID': '6'} {'Value': 'Kp'} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant1', 'SID': '7'} {'Value': 'Kr'} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant2', 'SID': '8'} {'Value': 'Wc'} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant3', 'SID': '9'} {'Value': 'Ts'} SystemRef= []
+{'BlockType': 'SubSystem', 'Name': 'Discrete PR', 'SID': '10'} {} SystemRef= [{'Ref': 'system_10'}]
+{'BlockType': 'Saturate', 'Name': 'Saturation', 'SID': '11'} {'UpperLimit': 'Upper', 'LowerLimit': 'Lower'} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'out', 'SID': '12'} {} SystemRef= []
+LINE [('Src', '7#out:1'), ('Dst', '10#in:3')]
+LINE [('Src', '9#out:1'), ('Dst', '10#in:5')]
+LINE [('Src', '6#out:1'), ('Dst', '10#in:2')]
+LINE [('Src', '8#out:1'), ('Dst', '10#in:4')]
+LINE [('Src', '10#out:1'), ('Dst', '11#in:1')]
+LINE [('Src', '11#out:1'), ('Dst', '12#in:1')]
+LINE [('Src', '5#out:1'), ('Dst', '10#in:1')]
+
+FILE simulink/systems/system_10.xml
+{'BlockType': 'Inport', 'Name': 'err_A', 'SID': '10::1'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Kp', 'SID': '10::28'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Kr', 'SID': '10::29'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Wc', 'SID': '10::30'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Ts', 'SID': '10::31'} {} SystemRef= []
+{'BlockType': 'Demux', 'Name': ' Demux ', 'SID': '10::37'} {} SystemRef= []
+{'BlockType': 'S-Function', 'Name': ' SFunction ', 'SID': '10::36'} {} SystemRef= []
+{'BlockType': 'Terminator', 'Name': ' Terminator ', 'SID': '10::38'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'out_A', 'SID': '10::5'} {} SystemRef= []
+LINE [('Src', '10::1#out:1'), ('Dst', '10::36#in:1')]
+LINE [('Src', '10::28#out:1'), ('Dst', '10::36#in:2')]
+LINE [('Src', '10::29#out:1'), ('Dst', '10::36#in:3')]
+LINE [('Src', '10::30#out:1'), ('Dst', '10::36#in:4')]
+LINE [('Src', '10::31#out:1'), ('Dst', '10::36#in:5')]
+LINE [('Name', 'out_A'), ('Src', '10::36#out:2'), ('Dst', '10::5#in:1')]
+LINE [('Src', '10::37#out:1'), ('Dst', '10::38#in:1')]
+LINE [('Src', '10::36#out:1'), ('Dst', '10::37#in:1')]
+
+FILE simulink/systems/system_127.xml
+{'BlockType': 'Inport', 'Name': 'err', 'SID': '128'} {} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant', 'SID': '129'} {'Value': 'Kp'} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant1', 'SID': '130'} {'Value': 'Kr'} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant2', 'SID': '131'} {'Value': 'Wc'} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant3', 'SID': '132'} {'Value': 'Ts'} SystemRef= []
+{'BlockType': 'SubSystem', 'Name': 'Discrete PR', 'SID': '133'} {} SystemRef= [{'Ref': 'system_133'}]
+{'BlockType': 'Saturate', 'Name': 'Saturation', 'SID': '134'} {'UpperLimit': 'Upper', 'LowerLimit': 'Lower'} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'out', 'SID': '135'} {} SystemRef= []
+LINE [('Src', '130#out:1'), ('Dst', '133#in:3')]
+LINE [('Src', '132#out:1'), ('Dst', '133#in:5')]
+LINE [('Src', '129#out:1'), ('Dst', '133#in:2')]
+LINE [('Src', '131#out:1'), ('Dst', '133#in:4')]
+LINE [('Src', '133#out:1'), ('Dst', '134#in:1')]
+LINE [('Src', '134#out:1'), ('Dst', '135#in:1')]
+LINE [('Src', '128#out:1'), ('Dst', '133#in:1')]
+
+FILE simulink/systems/system_133.xml
+{'BlockType': 'Inport', 'Name': 'err_A', 'SID': '133::1'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Kp', 'SID': '133::28'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Kr', 'SID': '133::29'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Wc', 'SID': '133::30'} {} SystemRef= []
+{'BlockType': 'Inport', 'Name': 'Ts', 'SID': '133::31'} {} SystemRef= []
+{'BlockType': 'Demux', 'Name': ' Demux ', 'SID': '133::37'} {} SystemRef= []
+{'BlockType': 'S-Function', 'Name': ' SFunction ', 'SID': '133::36'} {} SystemRef= []
+{'BlockType': 'Terminator', 'Name': ' Terminator ', 'SID': '133::38'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'out_A', 'SID': '133::5'} {} SystemRef= []
+LINE [('Src', '133::1#out:1'), ('Dst', '133::36#in:1')]
+LINE [('Src', '133::28#out:1'), ('Dst', '133::36#in:2')]
+LINE [('Src', '133::29#out:1'), ('Dst', '133::36#in:3')]
+LINE [('Src', '133::30#out:1'), ('Dst', '133::36#in:4')]
+LINE [('Src', '133::31#out:1'), ('Dst', '133::36#in:5')]
+LINE [('Name', 'out_A'), ('Src', '133::36#out:2'), ('Dst', '133::5#in:1')]
+LINE [('Src', '133::37#out:1'), ('Dst', '133::38#in:1')]
+LINE [('Src', '133::36#out:1'), ('Dst', '133::37#in:1')]
+
+FILE simulink/systems/system_51.xml
+{'BlockType': 'Inport', 'Name': 'm', 'SID': '52'} {} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant', 'SID': '53'} {} SystemRef= []
+{'BlockType': 'Gain', 'Name': 'Gain', 'SID': '54'} {'Gain': '8499/2'} SystemRef= []
+{'BlockType': 'Gain', 'Name': 'Gain1', 'SID': '55'} {'Gain': '8499/2'} SystemRef= []
+{'BlockType': 'Logic', 'Name': 'Logical\nOperator2', 'SID': '60'} {'Operator': 'NOT'} SystemRef= []
+{'BlockType': 'Logic', 'Name': 'Logical\nOperator3', 'SID': '61'} {'Operator': 'NOT'} SystemRef= []
+{'BlockType': 'RelationalOperator', 'Name': 'Relational\nOperator2', 'SID': '62'} {} SystemRef= []
+{'BlockType': 'RelationalOperator', 'Name': 'Relational\nOperator3', 'SID': '63'} {} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Repeating\nSequence1', 'SID': '64'} {'SourceType': 'Repeating table', 'rep_seq_t': '[0 25e-6 5e-5]', 'rep_seq_y': '[0 8499 0]'} SystemRef= []
+{'BlockType': 'Scope', 'Name': 'Scope', 'SID': '65'} {} SystemRef= []
+{'BlockType': 'Scope', 'Name': 'Scope3', 'SID': '66'} {} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum1', 'SID': '67'} {'Inputs': '+-|'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum2', 'SID': '68'} {'Inputs': '++|'} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport', 'SID': '99'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport1', 'SID': '100'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport2', 'SID': '101'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport3', 'SID': '102'} {} SystemRef= []
+LINE [('Src', '62#out:1'), ('Dst', '60#in:1'), ('Dst', '99#in:1'), ('Dst', '66#in:1')]
+LINE [('Src', '64#out:1'), ('Dst', '63#in:2'), ('Dst', '62#in:2')]
+LINE [('Src', '60#out:1'), ('Dst', '100#in:1'), ('Dst', '66#in:2')]
+LINE [('Src', '55#out:1'), ('Dst', '63#in:1'), ('Dst', '65#in:2')]
+LINE [('Src', '54#out:1'), ('Dst', '65#in:1'), ('Dst', '62#in:1')]
+LINE [('Src', '63#out:1'), ('Dst', '61#in:1'), ('Dst', '101#in:1'), ('Dst', '66#in:3')]
+LINE [('Src', '61#out:1'), ('Dst', '102#in:1'), ('Dst', '66#in:4')]
+LINE [('Src', '68#out:1'), ('Dst', '54#in:1')]
+LINE [('Src', '53#out:1'), ('Dst', '67#in:1'), ('Dst', '68#in:1')]
+LINE [('Src', '52#out:1'), ('Dst', '67#in:2'), ('Dst', '68#in:2')]
+LINE [('Src', '67#out:1'), ('Dst', '55#in:1')]
+
+FILE simulink/systems/system_168.xml
+{'BlockType': 'Inport', 'Name': 'm', 'SID': '169'} {} SystemRef= []
+{'BlockType': 'Constant', 'Name': 'Constant', 'SID': '170'} {} SystemRef= []
+{'BlockType': 'Gain', 'Name': 'Gain', 'SID': '171'} {'Gain': '8499/2'} SystemRef= []
+{'BlockType': 'Gain', 'Name': 'Gain1', 'SID': '172'} {'Gain': '8499/2'} SystemRef= []
+{'BlockType': 'Logic', 'Name': 'Logical\nOperator2', 'SID': '173'} {'Operator': 'NOT'} SystemRef= []
+{'BlockType': 'Logic', 'Name': 'Logical\nOperator3', 'SID': '174'} {'Operator': 'NOT'} SystemRef= []
+{'BlockType': 'RelationalOperator', 'Name': 'Relational\nOperator2', 'SID': '175'} {} SystemRef= []
+{'BlockType': 'RelationalOperator', 'Name': 'Relational\nOperator3', 'SID': '176'} {} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Repeating\nSequence1', 'SID': '177'} {'SourceType': 'Repeating table', 'rep_seq_t': '[0 25e-6 5e-5]', 'rep_seq_y': '[0 8499 0]'} SystemRef= []
+{'BlockType': 'Scope', 'Name': 'Scope', 'SID': '178'} {} SystemRef= []
+{'BlockType': 'Scope', 'Name': 'Scope3', 'SID': '179'} {} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum1', 'SID': '180'} {'Inputs': '+-|'} SystemRef= []
+{'BlockType': 'Sum', 'Name': 'Sum2', 'SID': '181'} {'Inputs': '++|'} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport', 'SID': '182'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport1', 'SID': '183'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport2', 'SID': '184'} {} SystemRef= []
+{'BlockType': 'Outport', 'Name': 'Outport3', 'SID': '185'} {} SystemRef= []
+LINE [('Src', '175#out:1'), ('Dst', '173#in:1'), ('Dst', '182#in:1'), ('Dst', '179#in:1')]
+LINE [('Src', '177#out:1'), ('Dst', '176#in:2'), ('Dst', '175#in:2')]
+LINE [('Src', '173#out:1'), ('Dst', '183#in:1'), ('Dst', '179#in:2')]
+LINE [('Src', '172#out:1'), ('Dst', '176#in:1'), ('Dst', '178#in:2')]
+LINE [('Src', '171#out:1'), ('Dst', '178#in:1'), ('Dst', '175#in:1')]
+LINE [('Src', '176#out:1'), ('Dst', '174#in:1'), ('Dst', '184#in:1'), ('Dst', '179#in:3')]
+LINE [('Src', '174#out:1'), ('Dst', '185#in:1'), ('Dst', '179#in:4')]
+LINE [('Src', '181#out:1'), ('Dst', '171#in:1')]
+LINE [('Src', '170#out:1'), ('Dst', '180#in:1'), ('Dst', '181#in:1')]
+LINE [('Src', '169#out:1'), ('Dst', '180#in:2'), ('Dst', '181#in:2')]
+LINE [('Src', '180#out:1'), ('Dst', '172#in:1')]
+
+FILE simulink/systems/system_92.xml
+{'BlockType': 'Reference', 'Name': 'Current Measurement', 'SID': '1'} {'SourceType': 'Current Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Current Measurement1', 'SID': '2'} {'SourceType': 'Current Measurement'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From', 'SID': '14'} {'GotoTag': 'Q1'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From1', 'SID': '15'} {'GotoTag': 'Q2'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From2', 'SID': '16'} {'GotoTag': 'Q3'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From3', 'SID': '17'} {'GotoTag': 'Q4'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto', 'SID': '22'} {'GotoTag': 'Vac'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto1', 'SID': '116'} {'GotoTag': 'Iac'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto2', 'SID': '113'} {'GotoTag': 'Udc'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto7', 'SID': '115'} {'GotoTag': 'IL'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet', 'SID': '25'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet1', 'SID': '26'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet2', 'SID': '27'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet3', 'SID': '28'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Parallel RLC Branch', 'SID': '29'} {'SourceType': 'Parallel RLC Branch', 'LConnTagsString': 'a', 'RConnTagsString': '__new0', 'BranchType': 'L', 'Resistance': '1', 'Inductance': '300e-6', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '1e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Parallel RLC Branch1', 'SID': '30'} {'SourceType': 'Parallel RLC Branch', 'LConnTagsString': 'a', 'RConnTagsString': '__new0', 'BranchType': 'L', 'Resistance': '1', 'Inductance': '300e-6', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '1e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Series RLC Branch', 'SID': '35'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'RC', 'Resistance': '0.05', 'Inductance': '1e-3', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '2200e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Series RLC Branch1', 'SID': '36'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'RC', 'Resistance': '1', 'Inductance': '1e-3', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '2.2e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Voltage Measurement1', 'SID': '44'} {'SourceType': 'Voltage Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Voltage Measurement3', 'SID': '112'} {'SourceType': 'Voltage Measurement'} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': ' DC+', 'SID': '110'} {} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': ' DC-', 'SID': '111'} {} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': ' P', 'SID': '118'} {} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': 'N', 'SID': '119'} {} SystemRef= []
+LINE [('Src', '15#out:1'), ('Dst', '26#in:1')]
+LINE [('Dst', '27#lconn:1'), ('Src', '28#rconn:1'), ('Src', '30#lconn:1')]
+LINE [('Src', '35#rconn:1'), ('Src', '111#rconn:1'), ('Src', '112#lconn:2'), ('Src', '27#rconn:1'), ('Dst', '26#rconn:1')]
+LINE [('Src', '28#lconn:1'), ('Src', '25#lconn:1'), ('Src', '112#lconn:1'), ('Src', '110#rconn:1'), ('Dst', '35#lconn:1')]
+LINE [('Src', '1#lconn:1'), ('Dst', '29#rconn:1')]
+LINE [('Src', '17#out:1'), ('Dst', '27#in:1')]
+LINE [('Src', '14#out:1'), ('Dst', '25#in:1')]
+LINE [('Src', '16#out:1'), ('Dst', '28#in:1')]
+LINE [('Src', '1#rconn:1'), ('Src', '2#lconn:1'), ('Dst', '36#lconn:1')]
+LINE [('Src', '29#lconn:1'), ('Src', '25#rconn:1'), ('Dst', '26#lconn:1')]
+LINE [('Src', '112#out:1'), ('Dst', '113#in:1')]
+LINE [('Src', '30#rconn:1'), ('Src', '119#rconn:1'), ('Src', '44#lconn:2'), ('Dst', '36#rconn:1')]
+LINE [('Src', '1#out:1'), ('Dst', '115#in:1')]
+LINE [('Src', '2#out:1'), ('Dst', '116#in:1')]
+LINE [('Src', '44#lconn:1'), ('Src', '118#rconn:1'), ('Dst', '2#rconn:1')]
+LINE [('Src', '44#out:1'), ('Dst', '22#in:1')]
+
+FILE simulink/systems/system_124.xml
+{'BlockType': 'Reference', 'Name': 'Current Measurement', 'SID': '125'} {'SourceType': 'Current Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Current Measurement1', 'SID': '126'} {'SourceType': 'Current Measurement'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From', 'SID': '137'} {'GotoTag': 'Q5'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From1', 'SID': '138'} {'GotoTag': 'Q6'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From2', 'SID': '139'} {'GotoTag': 'Q7'} SystemRef= []
+{'BlockType': 'From', 'Name': 'From3', 'SID': '140'} {'GotoTag': 'Q8'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto', 'SID': '144'} {'GotoTag': 'Vac2'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto1', 'SID': '145'} {'GotoTag': 'Iac2'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto2', 'SID': '146'} {'GotoTag': 'Udc2'} SystemRef= []
+{'BlockType': 'Goto', 'Name': 'Goto7', 'SID': '151'} {'GotoTag': 'IL2'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet', 'SID': '152'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet1', 'SID': '153'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet2', 'SID': '154'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Mosfet3', 'SID': '155'} {'SourceType': 'Mosfet', 'Ron': '8e-3', 'Lon': '0', 'Rd': '0.01', 'Vfd': '0', 'IC': '0', 'Rs': '1e5', 'Cs': 'inf '} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Parallel RLC Branch', 'SID': '156'} {'SourceType': 'Parallel RLC Branch', 'LConnTagsString': 'a', 'RConnTagsString': '__new0', 'BranchType': 'L', 'Resistance': '1', 'Inductance': '300e-6', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '1e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Parallel RLC Branch1', 'SID': '157'} {'SourceType': 'Parallel RLC Branch', 'LConnTagsString': 'a', 'RConnTagsString': '__new0', 'BranchType': 'L', 'Resistance': '1', 'Inductance': '300e-6', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '1e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Series RLC Branch', 'SID': '159'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'RC', 'Resistance': '0.05', 'Inductance': '1e-3', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '2200e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Series RLC Branch1', 'SID': '160'} {'SourceType': 'Series RLC Branch', 'LConnTagsString': '__new0', 'RConnTagsString': '__new0', 'BranchType': 'RC', 'Resistance': '1', 'Inductance': '1e-3', 'SetiL0': 'off', 'InitialCurrent': '0', 'Capacitance': '2.2e-6', 'Setx0': 'off', 'InitialVoltage': '0'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Voltage Measurement1', 'SID': '165'} {'SourceType': 'Voltage Measurement'} SystemRef= []
+{'BlockType': 'Reference', 'Name': 'Voltage Measurement3', 'SID': '166'} {'SourceType': 'Voltage Measurement'} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': ' DC+', 'SID': '188'} {} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': ' DC-', 'SID': '189'} {} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': ' P', 'SID': '190'} {} SystemRef= []
+{'BlockType': 'PMIOPort', 'Name': 'N', 'SID': '191'} {} SystemRef= []
+LINE [('Src', '138#out:1'), ('Dst', '153#in:1')]
+LINE [('Dst', '154#lconn:1'), ('Src', '155#rconn:1'), ('Src', '157#lconn:1')]
+LINE [('Src', '159#rconn:1'), ('Src', '189#rconn:1'), ('Src', '166#lconn:2'), ('Src', '154#rconn:1'), ('Dst', '153#rconn:1')]
+LINE [('Src', '155#lconn:1'), ('Src', '152#lconn:1'), ('Src', '166#lconn:1'), ('Src', '188#rconn:1'), ('Dst', '159#lconn:1')]
+LINE [('Src', '125#lconn:1'), ('Dst', '156#rconn:1')]
+LINE [('Src', '140#out:1'), ('Dst', '154#in:1')]
+LINE [('Src', '137#out:1'), ('Dst', '152#in:1')]
+LINE [('Src', '139#out:1'), ('Dst', '155#in:1')]
+LINE [('Src', '125#rconn:1'), ('Src', '126#lconn:1'), ('Dst', '160#lconn:1')]
+LINE [('Src', '156#lconn:1'), ('Src', '152#rconn:1'), ('Dst', '153#lconn:1')]
+LINE [('Src', '166#out:1'), ('Dst', '146#in:1')]
+LINE [('Src', '157#rconn:1'), ('Src', '191#rconn:1'), ('Src', '165#lconn:2'), ('Dst', '160#rconn:1')]
+LINE [('Src', '125#out:1'), ('Dst', '151#in:1')]
+LINE [('Src', '126#out:1'), ('Dst', '145#in:1')]
+LINE [('Src', '165#lconn:1'), ('Src', '190#rconn:1'), ('Dst', '126#rconn:1')]
+LINE [('Src', '165#out:1'), ('Dst', '144#in:1')]
+
+FILE simulink/blockdiagram.xml
+{'Name': 'PostLoadFcn'} set_param([bdroot '/powergui'], 'LinkStatus', 'inactive');
+{'Name': 'InitFcn'} set_param([bdroot '/powergui'], 'LinkStatus', 'inactive');
+{'Name': 'SimulationMode'} normal
+
+FILE simulink/configSet0.xml
+{'Name': 'StartTime'} 0.0
+{'Name': 'StopTime'} 0.1
+{'Name': 'FixedStep'} auto
+{'Name': 'MaxStep'} 1/20000/100
+{'Name': 'RelTol'} 1e-3
+
+FILE simulink/configSetInfo.xml
+
+FILE simulink/stateflow/chart_15.xml
+SCRIPT function out_A  = fcn(err_A, Kp, Kr, Wc, Ts)
+
+W0 = 50*2*pi;
+
+
+persistent err_A1;
+persistent err_A2;
+persistent out_A1;
+persistent out_A2;
+
+
+%%对三相静态变量初始化
+if isempty(err_A1)
+    err_A1 = 0;
+end
+if isempty(err_A2)
+    err_A2 = 0;
+end
+if isempty(out_A1)
+    out_A1 = 0;
+end
+if isempty(out_A2)
+    out_A2 = 0;
+end
+
+
+%%Discrete
+t1 = Wc * Ts;
+t2 = W0^2 * Ts^2;
+t3 = t2 + 4*t1 + 4;
+
+b0 = (Kp*t2 + 4*(Kp+Kr)*t1 + 4*Kp) / t3;
+b1 = (2*Kp*t2 - 8*Kp) / t3;
+b2 = (Kp*t2 + 4*Kp - 4*(Kp+Kr)*t1) / t3;
+a1 = (2*t2 - 8) / t3;
+a2 = (t2 - 4*t1 + 4) / t3;
+%%限制输出
+if b0>3000
+    b0=0;
+end
+if b0<-3000
+    b0=0;
+end
+
+%%计算输出量
+out_A = b0*err_A + b1*err_A1 + b2*err_A2 - a1*out_A1 - a2*out_A2;
+out_A2 = out_A1;
+out_A1 = out_A;
+err_A2 = err_A1;
+err_A1 = err_A;
+
+
+FILE simulink/stateflow/chart_26.xml
+SCRIPT function out_A  = fcn(err_A, Kp, Kr, Wc, Ts)
+
+W0 = 50*2*pi;
+
+
+persistent err_A1;
+persistent err_A2;
+persistent out_A1;
+persistent out_A2;
+
+
+%%对三相静态变量初始化
+if isempty(err_A1)
+    err_A1 = 0;
+end
+if isempty(err_A2)
+    err_A2 = 0;
+end
+if isempty(out_A1)
+    out_A1 = 0;
+end
+if isempty(out_A2)
+    out_A2 = 0;
+end
+
+
+%%Discrete
+t1 = Wc * Ts;
+t2 = W0^2 * Ts^2;
+t3 = t2 + 4*t1 + 4;
+
+b0 = (Kp*t2 + 4*(Kp+Kr)*t1 + 4*Kp) / t3;
+b1 = (2*Kp*t2 - 8*Kp) / t3;
+b2 = (Kp*t2 + 4*Kp - 4*(Kp+Kr)*t1) / t3;
+a1 = (2*t2 - 8) / t3;
+a2 = (t2 - 4*t1 + 4) / t3;
+%%限制输出
+if b0>3000
+    b0=0;
+end
+if b0<-3000
+    b0=0;
+end
+
+%%计算输出量
+out_A = b0*err_A + b1*err_A1 + b2*err_A2 - a1*out_A1 - a2*out_A2;
+out_A2 = out_A1;
+out_A1 = out_A;
+err_A2 = err_A1;
+err_A1 = err_A;
+

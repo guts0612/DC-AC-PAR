@@ -1,0 +1,31 @@
+
+EXTENDED_CASE_START extended_440uH_Rc0_no_load 2026-10-14 15:53:38
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS2/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean value1/Model/Transport Delay' was too small. During
+simulation, the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/Mean/Model/Transport Delay' was too small. During simulation, the buffer size was
+temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_extended_master (第 34 行)
+位置: run (第 99 行)] 
+EXTENDED_CASE_RESULT extended_440uH_Rc0_no_load Vrms=24.0144549 std=0.000594677209 min=24.0116154 max=24.0161567 Vmean=2.91321533e-06 I1=0.0877304825 I2=0.0877304824 runtime=293.525s

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "original_parallel_12ohm",
+    "slave": true,
+    "L": 0.0003,
+    "Rload": 12,
+    "Rc": 1,
+    "elapsed_s": 290.6750032,
+    "v_rms_mean": 23.99050888652911,
+    "v_rms_std": 0.00032060950579358786,
+    "v_rms_min": 23.989129592606343,
+    "v_rms_max": 23.991460100477049,
+    "v_mean": 4.8167289776029066E-6,
+    "v_peak": 34.219052982922427,
+    "master_current_rms": 0.99931225534321222,
+    "slave_current_rms": 1.0042677179052095,
+    "error": ""
+  },
+  {
+    "name": "original_parallel_no_load",
+    "slave": true,
+    "L": 0.0003,
+    "Rload": 1.0E+9,
+    "Rc": 1,
+    "elapsed_s": 302.926921,
+    "v_rms_mean": 27.591300368875011,
+    "v_rms_std": 0.11141426283206533,
+    "v_rms_min": 27.278322160507084,
+    "v_rms_max": 27.823709414353367,
+    "v_mean": -0.0030250264247698943,
+    "v_peak": 54.01753907717611,
+    "master_current_rms": 0.62408079523723,
+    "slave_current_rms": 0.62408082559646838,
+    "error": ""
+  }
+]

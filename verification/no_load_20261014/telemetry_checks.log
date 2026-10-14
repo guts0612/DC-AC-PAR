@@ -1,0 +1,25 @@
+TEST verify_voltage_rms.py exit=0
+PASS full-rate RMS: 24/25 V sine, DC, harmonics, /10 aliasing, mode reset, dynamic window and CH8 mean-mode publication
+TEST verify_voltage_rms_integration.py exit=0
+PASS actual ADC/VOFA integration mean_mode=0 quantized_24V_rms=23.9994926 V frame_bytes=36: callback pairing, CH1-8, mode reset, UART mailbox snapshot, PRIMASK, duplicate ADC
+PASS actual ADC/VOFA integration mean_mode=1 quantized_24V_rms=23.9994926 V frame_bytes=36: callback pairing, CH1-8, mode reset, UART mailbox snapshot, PRIMASK, duplicate ADC
+TEST verify_vofa_frame.py exit=0
+PASS: all eight channel writes stay inside frame
+PASS: UART receives 36 bytes (eight floats plus delimiter)
+PASS: eight channels retain their values and ordering
+PASS: JustFloat delimiter is 00 00 80 7F after channel eight
+PASS: successful send counted
+PASS: timeout counted without claiming successful delivery
+frame_bytes=36 out_of_bounds_copies=0 failures=0
+TEST verify_vofa_mean.py exit=0
+PASS: 400-sample means, all channels, decimation bias rejection, window reset, mode switch, mailbox overwrite
+TEST verify_voltage_error_dc.py exit=0
+bias=+0.050 V: iref DC=+0.0001562 A, fundamental peak=0.0000046 A
+bias=-0.075 V: iref DC=-0.0001992 A, fundamental peak=0.0000069 A
+bias=+0.000 V: iref DC=+0.0000014 A, fundamental peak=0.9544266 A
+bias=+0.050 V: iref DC=+0.0001532 A, fundamental peak=0.9544266 A
+bias=-0.075 V: iref DC=-0.0002275 A, fundamental peak=0.9544267 A
+PASS window size, ramp freeze, positive-to-negative bias and observable state
+PASS DC rejection, 50 Hz gain, raw telemetry, reset and open-loop clearing
+TEST verify_slave.py exit=0
+PASS: startup/off, PB9/open interlock, zero-cross admission, soft sharing, toggle/disconnect, unchanged A/B writes, timing/overcurrent/NaN faults, PR feedforward and antiwindup

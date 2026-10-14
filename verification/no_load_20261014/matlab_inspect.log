@@ -1,0 +1,22 @@
+MATLAB_VERSION=23.2.0.2365128 (R2023b)
+SOLVER=VariableStepAuto, SOLVER_TYPE=Variable-step
+CHART=BINLIANSinglePhase/主从均流/Digital PR/Discrete PR SAMPLE_TIME=Ts UPDATE_METHOD=DISCRETE
+CHART=BINLIANSinglePhase/主从均流/Digital PR1/Discrete PR SAMPLE_TIME=Ts UPDATE_METHOD=DISCRETE
+COMPILED=BINLIANSinglePhase/主从均流/Digital PR/Discrete PR    1.0e-04 *
+
+    0.5000         0
+
+COMPILED=BINLIANSinglePhase/主从均流/Digital PR1/Discrete PR    1.0e-04 *
+
+    0.5000         0
+
+SID=4 PATH=BINLIANSinglePhase/主从均流/Digital PR
+SID=127 PATH=BINLIANSinglePhase/主从均流/Digital PR1
+SID=88 PATH=BINLIANSinglePhase/主从均流/虚拟阻抗
+SID=92 PATH=BINLIANSinglePhase/逆变器1
+SID=124 PATH=BINLIANSinglePhase/逆变器2
+SID=29 PATH=BINLIANSinglePhase/逆变器1/Parallel RLC Branch
+SID=30 PATH=BINLIANSinglePhase/逆变器1/Parallel RLC Branch1
+SID=36 PATH=BINLIANSinglePhase/逆变器1/Series RLC Branch1
+SID=160 PATH=BINLIANSinglePhase/逆变器2/Series RLC Branch1
+SID=240 PATH=BINLIANSinglePhase/主从均流/Gain1

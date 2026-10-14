@@ -1,6 +1,6 @@
 """Exercise the actual VOFA sender from main.c with a host UART stub.
 
-Checks seven-channel payload, JustFloat delimiter, frame length, memcpy bounds,
+Checks eight-channel payload, JustFloat delimiter, frame length, memcpy bounds,
 and success/error counters. Does not test the physical UART or VOFA UI.
 """
 from pathlib import Path
@@ -69,19 +69,19 @@ static void check(int condition, const char *label)
 }
 int main(void)
 {
-    const float expected[7] = {1.25f, -2.5f, 3.75f, -4.0f, 5.5f, -6.25f, 7.125f};
+    const float expected[8] = {1.25f, -2.5f, 3.75f, -4.0f, 5.5f, -6.25f, 7.125f, 24.0f};
     const uint8_t tail[4] = {0x00,0x00,0x80,0x7f};
     if (sizeof(float) != 4) return 2;
-    VOFA_SendJustFloat(expected[0],expected[1],expected[2],expected[3],expected[4],expected[5],expected[6]);
-    check(bounds_errors == 0, "all seven channel writes stay inside frame");
-    check(captured_size == 32, "UART receives 32 bytes (seven floats plus delimiter)");
-    check(captured_size >= 28 && memcmp(captured,expected,28) == 0,
-          "seven channels retain their values and ordering");
-    check(captured_size == 32 && memcmp(captured+28,tail,4) == 0,
-          "JustFloat delimiter is 00 00 80 7F after channel seven");
+    VOFA_SendJustFloat(expected[0],expected[1],expected[2],expected[3],expected[4],expected[5],expected[6],expected[7]);
+    check(bounds_errors == 0, "all eight channel writes stay inside frame");
+    check(captured_size == 36, "UART receives 36 bytes (eight floats plus delimiter)");
+    check(captured_size >= 32 && memcmp(captured,expected,32) == 0,
+          "eight channels retain their values and ordering");
+    check(captured_size == 36 && memcmp(captured+32,tail,4) == 0,
+          "JustFloat delimiter is 00 00 80 7F after channel eight");
     check(vofa_sent_count == 1 && vofa_tx_error_count == 0, "successful send counted");
     next_status = HAL_TIMEOUT;
-    VOFA_SendJustFloat(0,0,0,0,0,0,0);
+    VOFA_SendJustFloat(0,0,0,0,0,0,0,0);
     check(vofa_sent_count == 1 && vofa_tx_error_count == 1,
           "timeout counted without claiming successful delivery");
     printf("frame_bytes=%u out_of_bounds_copies=%u failures=%u\n",

@@ -1,9 +1,30 @@
 # QPR 与开闭环/RMS 主机验证
 
-> 2026-10-08：当前主机闭环已改为电压 QPR + 电流 QPR。请运行
-> `python Tests/verify_dual_qpr.py`，以及 `verify_slave.py`、`verify_vofa_mean.py`、
-> `verify_vofa_frame.py`。下文、`verify_qpr.py`、`qpr_host_bridge.c` 和旧 JSON
-> 属于原虚拟阻抗控制版本的历史记录，不适用于当前算法，也不代表当前验证通过。
+> 2026-10-14：已按当前源码重新核对。主机为虚拟阻抗外环 + 电流 QPR，
+> `QPR_KP=1`、`QPR_KR=1.6`；并非旧文档所述的双 QPR。
+> VOFA 已扩展到八通道，CH8 为 20 kHz 全速采样的一周期输出电压 RMS。
+> 本次通过 `verify_voltage_rms.py`、`verify_voltage_rms_integration.py`、
+> `verify_vofa_frame.py`、`verify_vofa_mean.py`、
+> `verify_voltage_error_dc.py` 和 `verify_slave.py`，Keil 编译为 0 错误、0 警告。
+> `verify_dual_qpr.py`、`verify_qpr.py`、`qpr_host_bridge.c`、下文及旧 JSON
+> 描述其他历史版本，不能作为当前控制器验证。空载对照见
+> `verification/no_load_20261014/空载核查与第八通道说明.md`。
+
+本次 RMS 与打包检查直接执行从当前 `main.c` 提取的 C 函数，覆盖 24/25 V
+正弦、直流偏置、三次谐波、抽点偏差、窗口及模式切换、均值模式下 CH8 保持
+RMS、八通道 36 字节帧与发送失败计数。这些检查不代替 ADC 标定、实机中断
+执行时间及闭环稳定性测量。
+
+```powershell
+python Tests\verify_voltage_rms.py
+python Tests\verify_voltage_rms_integration.py
+python Tests\verify_vofa_frame.py
+python Tests\verify_vofa_mean.py
+python Tests\verify_voltage_error_dc.py
+python Tests\verify_slave.py
+```
+
+以下为历史验证记录。
 
 这些检查直接用 GCC 编译 `Core/Src/qpr_control.c` 和 `Core/Src/inverter_control.c`，经小型 C 桥调用真实控制代码。Python 仅使用标准库；从 `singlephase.slx` 的 XML 提取 QPR 参数、原 MATLAB Function 的差分系数、虚拟阻抗及 LC 参数，作为独立 double 数值参考。脚本不执行模型中的回调、注释或任意代码。
 

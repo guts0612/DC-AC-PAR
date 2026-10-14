@@ -1,0 +1,4 @@
+TRACE_ANALYSIS original_parallel_12ohm rawRMS=23.9906051 fundamental=23.9893476 residual=0.257075883 dominantHz=1050.0105
+TRACE_ANALYSIS original_parallel_no_load rawRMS=27.6004255 fundamental=24.0073255 residual=13.6175463 dominantHz=3095.03095
+TRACE_ANALYSIS extended_440uH_Rc0_no_load rawRMS=24.0145378 fundamental=24.0096862 residual=0.488631007 dominantHz=3650.0365
+TRACE_ANALYSIS delayed_440uH_Rc0_no_load rawRMS=28.545125 fundamental=24.0786909 residual=15.331229 dominantHz=3725.03725

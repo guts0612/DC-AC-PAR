@@ -18,7 +18,8 @@ harness = r"""
 __COUNT__
 static struct {float reference_v,current_reference_a,resonant_r,qpr_unlimited_v;} qpr_control;
 static float true_voltage,true_current,true_aux_current,dc_bus_voltage_v,vofa_mean_sum[6];
-static float vofa_ch1,vofa_ch2,vofa_ch3,vofa_ch4,vofa_ch5,vofa_ch6,vofa_ch7;
+static float vofa_ch1,vofa_ch2,vofa_ch3,vofa_ch4,vofa_ch5,vofa_ch6,vofa_ch7,vofa_ch8;
+static float output_voltage_rms_v = 24.0f;
 static uint32_t vofa_mean_count,vofa_mean_window_count,vofa_overwrite_count;
 static uint8_t vofa_mean_mode,vofa_frame_ready;
 __FUNCTION__
@@ -46,6 +47,7 @@ int main(void) {
     assert(fabsf(vofa_ch5-1.25f)<0.00001f);
     assert(fabsf(vofa_ch6-48.0f)<0.00001f); /* CH6 averages measured bus, including ripple. */
     assert(fabsf(vofa_ch7-3.99f)<0.00001f); /* CH7 is latest, not averaged. */
+    assert(fabsf(vofa_ch8-24.0f)<0.00001f); /* CH8 remains RMS in mean mode. */
     for(unsigned n=0;n<400;n++) sample(n,1);
     assert(vofa_overwrite_count==1 && vofa_mean_window_count==2);
     for(unsigned n=0;n<173;n++) sample(n,1);

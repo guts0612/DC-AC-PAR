@@ -1,0 +1,64 @@
+
+CASE_START original_parallel_12ohm 2026-10-14 15:42:11
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS2/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean value1/Model/Transport Delay' was too small. During
+simulation, the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/Mean/Model/Transport Delay' was too small. During simulation, the buffer size was
+temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+CASE_RESULT original_parallel_12ohm Vrms=23.9905089 std=0.000320609506 min=23.9891296 max=23.9914601 Vmean=4.81672898e-06 I1=0.999312255 I2=1.00426772 runtime=290.675s
+
+CASE_START original_parallel_no_load 2026-10-14 15:47:08
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS2/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean value1/Model/Transport Delay' was too small. During
+simulation, the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/Mean/Model/Transport Delay' was too small. During simulation, the buffer size was
+temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_switching_cases (第 51 行)
+位置: run (第 99 行)] 
+CASE_RESULT original_parallel_no_load Vrms=27.5913004 std=0.111414263 min=27.2783222 max=27.8237094 Vmean=-0.00302502642 I1=0.624080795 I2=0.624080826 runtime=302.927s
+
+CASE_START slave_off_600uH_12ohm_Rc1 2026-10-14 15:52:12

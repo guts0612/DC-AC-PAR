@@ -1,0 +1,258 @@
+{
+  "source": "D:\\download\\vofa\\带载和空载对比.csv",
+  "sha256": "9765d15c07cfe20b845d6ee7aa9a1c040909a98b47085cafa5d29ecbaeae0370",
+  "rows": 49802,
+  "columns": [
+    "reference_voltage_v",
+    "sampled_voltage_v",
+    "current_reference_a",
+    "sampled_master_current_a",
+    "bridge_reference_v",
+    "sampled_slave_current_a",
+    "sampled_bus_v",
+    "full_rate_voltage_rms_v"
+  ],
+  "duration_estimated_s": 24.900507495944147,
+  "timing_method": "50 Hz reference phase; no original timestamps",
+  "control_sample_increment_quantiles": [
+    9.958275893604203,
+    9.967640788385156,
+    9.99975557939269,
+    10.041738813657334,
+    10.050603798200385
+  ],
+  "apparent_missing_frames": 0,
+  "rail_voltage_limits_v": [
+    -38.4375,
+    38.34375
+  ],
+  "total_rail_frames": 400,
+  "first_rail_zero_based_row": 26763,
+  "first_rail_estimated_time_s": 13.381503323997727,
+  "segments": {
+    "loaded": {
+      "rows_zero_based": [
+        5000,
+        26000
+      ],
+      "csv_data_rows_one_based": [
+        5001,
+        26000
+      ],
+      "estimated_time_s": [
+        2.50000075775986,
+        12.999503998446665
+      ],
+      "full_rate_rms_frame_weighted": {
+        "mean": 23.97646246904762,
+        "std": 0.007396939802312959,
+        "min": 23.957554,
+        "max": 23.999849,
+        "p05": 23.964294,
+        "median": 23.976185,
+        "p95": 23.988707
+      },
+      "full_rate_rms_unique_window": {
+        "count": 525,
+        "mean": 23.976451784761906,
+        "std": 0.007401597635347183
+      },
+      "telemetry_rms": [
+        23.999694793563606,
+        23.99220109004097,
+        1.7693330084826377,
+        2.124674537840666,
+        23.04993062443422,
+        0.03483615691897257,
+        45.152885920090235,
+        23.976463610056996
+      ],
+      "harmonic_fit": {
+        "reference_voltage_v": {
+          "dc": -1.1325532137797341e-12,
+          "fundamental_rms": 24.000000000000178,
+          "fundamental_phase_deg": -8.968402307416654e-10,
+          "residual_rms": 5.159890890409502e-10
+        },
+        "sampled_voltage_v": {
+          "dc": 0.21769595573366207,
+          "fundamental_rms": 23.986979177498107,
+          "fundamental_phase_deg": -1.3149363358145523,
+          "residual_rms": 0.4677481986544465
+        },
+        "current_reference_a": {
+          "dc": 0.08066202100370885,
+          "fundamental_rms": 1.7576437856800853,
+          "fundamental_phase_deg": -1.8210151458266306,
+          "residual_rms": 0.18656678866731508
+        },
+        "sampled_master_current_a": {
+          "dc": 0.04913663030696609,
+          "fundamental_rms": 2.12226675001735,
+          "fundamental_phase_deg": -1.6167172310487503,
+          "residual_rms": 0.08908118408693617
+        },
+        "bridge_reference_v": {
+          "dc": 0.03153412395690576,
+          "fundamental_rms": 23.04925148506824,
+          "fundamental_phase_deg": 0.025834801580958633,
+          "residual_rms": 0.2092998027570528
+        },
+        "sampled_slave_current_a": {
+          "dc": 0.003678431636712604,
+          "fundamental_rms": 0.0005415582823414121,
+          "fundamental_phase_deg": 164.9602213550598,
+          "residual_rms": 0.03463717219303874
+        },
+        "sampled_bus_v": {
+          "dc": 45.1496719103026,
+          "fundamental_rms": 0.004704588793165955,
+          "fundamental_phase_deg": -29.010317663590595,
+          "residual_rms": 0.5387124274328967
+        }
+      },
+      "rail_frames": 0,
+      "rail_fraction": 0.0,
+      "adc0_frames": 0,
+      "adc4095_frames": 0,
+      "correction_min": -2.0848610000000036,
+      "correction_max": 1.6428990000000034,
+      "correction_clip_frames": 0,
+      "bus_mean": 45.149671911333336,
+      "bus_std": 0.5387329687344447,
+      "bus_rms_correlation": 0.006708225266948165,
+      "sampled_non50_spectrum_top_hz": [
+        250.0,
+        250.9765625,
+        249.0234375,
+        299.8046875,
+        300.78125
+      ],
+      "sampled_900_1000hz_power_v2": 0.012510065110393404,
+      "frequency_limitation": "telemetry-domain frequencies; aliases cannot establish the physical oscillation frequency"
+    },
+    "no_load": {
+      "rows_zero_based": [
+        28000,
+        48000
+      ],
+      "csv_data_rows_one_based": [
+        28001,
+        48000
+      ],
+      "estimated_time_s": [
+        14.000004249806901,
+        23.99950735339214
+      ],
+      "full_rate_rms_frame_weighted": {
+        "mean": 24.276281917,
+        "std": 0.12260362414143036,
+        "min": 24.085793,
+        "max": 24.814421,
+        "p05": 24.1269826,
+        "median": 24.251751,
+        "p95": 24.4980734
+      },
+      "full_rate_rms_unique_window": {
+        "count": 501,
+        "mean": 24.276084075848306,
+        "std": 0.12256324044978228
+      },
+      "telemetry_rms": [
+        23.999705551322783,
+        24.269331725609224,
+        0.3927705576722346,
+        0.2502596722467522,
+        23.165031447890662,
+        0.034778320689215506,
+        45.31437562741486,
+        24.27659151038956
+      ],
+      "harmonic_fit": {
+        "reference_voltage_v": {
+          "dc": 2.4669730365994035e-12,
+          "fundamental_rms": 23.99999999999975,
+          "fundamental_phase_deg": 7.301927712977314e-10,
+          "residual_rms": 8.624113885779121e-10
+        },
+        "sampled_voltage_v": {
+          "dc": 0.18550102395913146,
+          "fundamental_rms": 24.036709176344246,
+          "fundamental_phase_deg": 0.16483051054284212,
+          "residual_rms": 3.3491498449549844
+        },
+        "current_reference_a": {
+          "dc": 0.11765691840962858,
+          "fundamental_rms": 0.28480108424745487,
+          "fundamental_phase_deg": 149.77492096469774,
+          "residual_rms": 0.24354791197790654
+        },
+        "sampled_master_current_a": {
+          "dc": 0.013466264440981557,
+          "fundamental_rms": 0.07848746887205145,
+          "fundamental_phase_deg": 11.328015532809745,
+          "residual_rms": 0.237251756775212
+        },
+        "bridge_reference_v": {
+          "dc": 0.10418999689499199,
+          "fundamental_rms": 23.163329184133396,
+          "fundamental_phase_deg": 0.8267620069311983,
+          "residual_rms": 0.2846311893295258
+        },
+        "sampled_slave_current_a": {
+          "dc": 0.0031441718037898674,
+          "fundamental_rms": 0.00019119355227968667,
+          "fundamental_phase_deg": 161.2605821869524,
+          "residual_rms": 0.03463537526752059
+        },
+        "sampled_bus_v": {
+          "dc": 45.31129711789095,
+          "fundamental_rms": 0.005937765965719064,
+          "fundamental_phase_deg": -104.19558108144614,
+          "residual_rms": 0.5281636893944339
+        }
+      },
+      "rail_frames": 340,
+      "rail_fraction": 0.017,
+      "adc0_frames": 223,
+      "adc4095_frames": 117,
+      "correction_min": -1.9206029999999998,
+      "correction_max": 1.7994999999999983,
+      "correction_clip_frames": 0,
+      "bus_mean": 45.3112971163,
+      "bus_std": 0.528197066239038,
+      "bus_rms_correlation": 0.011108369043017373,
+      "sampled_non50_spectrum_top_hz": [
+        981.4453125,
+        984.375,
+        982.421875,
+        980.46875,
+        988.28125
+      ],
+      "sampled_900_1000hz_power_v2": 10.730566541536065,
+      "frequency_limitation": "telemetry-domain frequencies; aliases cannot establish the physical oscillation frequency"
+    }
+  },
+  "sample_domain_load_regulation_percent": 1.235030343515764,
+  "sampled_fundamental_load_regulation_percent": 0.20689187725864364,
+  "meter_readings_user_reported_v": {
+    "loaded": [
+      24.0,
+      24.1
+    ],
+    "no_load": [
+      24.5,
+      24.7
+    ]
+  },
+  "physical_si_from_meter_range_percent": [
+    1.632653061224484,
+    2.834008097165989
+  ],
+  "limitations": [
+    "Voltage ADC reaches both rails in no-load; sampled RMS cannot recover clipped peaks.",
+    "The current columns are current-reference I2 and actual master-current I3.",
+    "Voltage RMS channel has 20 kHz source samples, whereas waveform telemetry is about 2 kHz.",
+    "Sampled distortion does not uniquely distinguish physical LC oscillation from analog/ADC interference."
+  ]
+}

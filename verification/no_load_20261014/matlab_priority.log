@@ -1,0 +1,93 @@
+
+PRIORITY_CASE_START priority_440uH_Rc0_12ohm 2026-10-14 15:45:54
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS2/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean value1/Model/Transport Delay' was too small. During
+simulation, the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/Mean/Model/Transport Delay' was too small. During simulation, the buffer size was
+temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+PRIORITY_CASE_RESULT priority_440uH_Rc0_12ohm Vrms=23.9358721 std=0.00131124038 min=23.9328465 max=23.9384437 Vmean=-0.000191271871 I1=1.99667348 I2=0.0841918272 runtime=96.952s
+
+PRIORITY_CASE_START priority_440uH_Rc0_no_load 2026-10-14 15:47:40
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS2/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean value1/Model/Transport Delay' was too small. During
+simulation, the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/Mean/Model/Transport Delay' was too small. During simulation, the buffer size was
+temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+PRIORITY_CASE_RESULT priority_440uH_Rc0_no_load Vrms=24.0142091 std=0.000476894066 min=24.0125752 max=24.0160937 Vmean=-3.34841882e-05 I1=0.0877407633 I2=0.0877407632 runtime=86.370s
+
+PRIORITY_CASE_START priority_440uH_Rc1_no_load 2026-10-14 15:49:07
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/RMS2/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation, the
+buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS1/TrueRMS /Mean value/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean value1/Model/Transport Delay' was too small. During
+simulation, the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/RMS2/RMS /Fourier1/Mean/Model/Transport Delay' was too small. During simulation,
+the buffer size was temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+[警告: The specified buffer for 'BINLIANSinglePhase/THD1/Mean/Model/Transport Delay' was too small. During simulation, the buffer size was
+temporarily increased to 112640. In order to generate code, you need to update the buffer size parameter] 
+[> 位置：run_priority_cases (第 35 行)
+位置: run (第 99 行)] 
+PRIORITY_CASE_RESULT priority_440uH_Rc1_no_load Vrms=24.0127442 std=8.30340304e-05 min=24.0116171 max=24.013424 Vmean=-5.06732819e-07 I1=0.0862233601 I2=0.0862233647 runtime=108.083s

@@ -1,0 +1,54 @@
+[
+  {
+    "case_name": "original_parallel_12ohm",
+    "window_s": [
+      0.8,
+      1
+    ],
+    "raw_trace_rms": 23.990605073007917,
+    "fundamental_50Hz_rms": 23.989347567413006,
+    "residual_rms": 0.25707588347688354,
+    "dominant_500Hz_to_20kHz": 1050.0105001330946,
+    "dominant_sinusoidal_peak_V": 0.046365015050593664,
+    "trace_sample_period_s": 1.999999999946489E-6
+  },
+  {
+    "case_name": "original_parallel_no_load",
+    "window_s": [
+      0.8,
+      1
+    ],
+    "raw_trace_rms": 27.600425537395576,
+    "fundamental_50Hz_rms": 24.007325520723136,
+    "residual_rms": 13.617546263364398,
+    "dominant_500Hz_to_20kHz": 3095.0309503923122,
+    "dominant_sinusoidal_peak_V": 15.047601527168915,
+    "trace_sample_period_s": 1.999999999946489E-6
+  },
+  {
+    "case_name": "extended_440uH_Rc0_no_load",
+    "window_s": [
+      0.8,
+      1
+    ],
+    "raw_trace_rms": 24.014537803520486,
+    "fundamental_50Hz_rms": 24.009686177939084,
+    "residual_rms": 0.48863100702400508,
+    "dominant_500Hz_to_20kHz": 3650.0365004626619,
+    "dominant_sinusoidal_peak_V": 0.43893857160222294,
+    "trace_sample_period_s": 1.999999999946489E-6
+  },
+  {
+    "case_name": "delayed_440uH_Rc0_no_load",
+    "window_s": [
+      0.8,
+      1
+    ],
+    "raw_trace_rms": 28.545124997637867,
+    "fundamental_50Hz_rms": 24.078690890025086,
+    "residual_rms": 15.33122902394631,
+    "dominant_500Hz_to_20kHz": 3725.037250472169,
+    "dominant_sinusoidal_peak_V": 16.544426360658843,
+    "trace_sample_period_s": 1.999999999946489E-6
+  }
+]

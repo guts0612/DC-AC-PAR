@@ -1,0 +1,755 @@
+
+FILE simulink/systems/system_root.xml
+BLOCK {'BlockType': 'Reference', 'Name': 'Current Measurement', 'SID': '229'}
+<P Name="Position">[1335, 393, 1360, 417]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/Sensors and Measurements/Current Measurement</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="UserDataPersistent">on</P>
+    
+<P Name="SourceBlock">spsCurrentMeasurementLib/Current Measurement</P>
+    
+<P Name="SourceType">Current Measurement</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="PhasorSimulation">off</P>
+      <P Name="OutputType">Complex</P>
+      <P Name="PSBequivalent">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'Current Measurement1', 'SID': '230'}
+<P Name="Position">[1335, 638, 1360, 662]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/Sensors and Measurements/Current Measurement</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="UserDataPersistent">on</P>
+    
+<P Name="SourceBlock">spsCurrentMeasurementLib/Current Measurement</P>
+    
+<P Name="SourceType">Current Measurement</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="PhasorSimulation">off</P>
+      <P Name="OutputType">Complex</P>
+      <P Name="PSBequivalent">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'DC 48V', 'SID': '121'}
+<P Name="Position">[925, 450, 945, 485]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="BlockRotation">270</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="SourceBlock">spsDCVoltageSourceLib/DC Voltage Source</P>
+    
+<P Name="SourceType">DC Voltage Source</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="Amplitude">48</P>
+      <P Name="Measurements">None</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'DC 48V1', 'SID': '123'}
+<P Name="Position">[925, 695, 945, 730]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="BlockRotation">270</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="SourceBlock">spsDCVoltageSourceLib/DC Voltage Source</P>
+    
+<P Name="SourceType">DC Voltage Source</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="Amplitude">48</P>
+      <P Name="Measurements">None</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Display', 'Name': 'Display', 'SID': '231'}
+<P Name="Position">[1505, 380, 1555, 420]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="Decimation">1</P>
+  
+BLOCK {'BlockType': 'Display', 'Name': 'Display1', 'SID': '232'}
+<P Name="Position">[1505, 625, 1565, 665]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="Decimation">1</P>
+  
+BLOCK {'BlockType': 'Display', 'Name': 'Display2', 'SID': '237'}
+<P Name="Position">[1545, 435, 1595, 475]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="Decimation">1</P>
+  
+BLOCK {'BlockType': 'Display', 'Name': 'Display3', 'SID': '243'}
+<P Name="Position">[1545, 490, 1595, 530]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="Decimation">1</P>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'R1', 'SID': '195'}
+<P Name="Position">[1392, 530, 1418, 580]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="BlockRotation">270</P>
+    
+<P Name="BlockMirror">on</P>
+    
+<P Name="NameLocation">left</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="SourceBlock">spsSeriesRLCBranchLib/Series RLC Branch</P>
+    
+<P Name="SourceType">Series RLC Branch</P>
+    
+<InstanceData>
+      <P Name="LConnTagsString">__new0</P>
+      <P Name="RConnTagsString">__new0</P>
+      <P Name="BranchType">R</P>
+      <P Name="Resistance">12</P>
+      <P Name="Inductance">0</P>
+      <P Name="SetiL0">off</P>
+      <P Name="InitialCurrent">0</P>
+      <P Name="Capacitance">3e-4</P>
+      <P Name="Setx0">off</P>
+      <P Name="InitialVoltage">350</P>
+      <P Name="Measurements">None</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'RMS', 'SID': '234'}
+<P Name="Position">[1430, 392, 1455, 408]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/Sensors and Measurements/RMS</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="FontName">Arial</P>
+    
+<P Name="SourceBlock">spsRMSLib/RMS</P>
+    
+<P Name="SourceType">RMS</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="TrueRMS">on</P>
+      <P Name="Freq">50</P>
+      <P Name="RMSInit">0</P>
+      <P Name="Ts">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'RMS1', 'SID': '235'}
+<P Name="Position">[1430, 637, 1455, 653]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/Sensors and Measurements/RMS</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="FontName">Arial</P>
+    
+<P Name="SourceBlock">spsRMSLib/RMS</P>
+    
+<P Name="SourceType">RMS</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="TrueRMS">on</P>
+      <P Name="Freq">50</P>
+      <P Name="RMSInit">0</P>
+      <P Name="Ts">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'RMS2', 'SID': '236'}
+<P Name="Position">[1495, 447, 1520, 463]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/Sensors and Measurements/RMS</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="FontName">Arial</P>
+    
+<P Name="SourceBlock">spsRMSLib/RMS</P>
+    
+<P Name="SourceType">RMS</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="TrueRMS">on</P>
+      <P Name="Freq">50</P>
+      <P Name="RMSInit">0</P>
+      <P Name="Ts">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Scope', 'Name': 'Scope', 'SID': '196'}
+<P Name="Position">[1495, 539, 1525, 571]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="ScopeSpecificationString">Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extmgr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('Sources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1'),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays',{struct('MinYLimReal','-41.02993','MaxYLimReal','41.03267','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','41.03267','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title','%&lt;SignalLabel&gt;','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',1,'LineNames',{{'Voltage Measurement3'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',struct('MinYLimReal','-41.02993','MaxYLimReal','41.03267','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag','41.03267','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;1 1 0.0666666666666667;0.717647058823529 0.274509803921569 1;0.392156862745098 0.831372549019608 0.0745098039215686;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863])),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAutoscale','XY'),extmgr.Configuration('Tools','Measurements',true,'Version','2023b')),'Version','2023b','Position',[1 49 1920 954])</P>
+    
+<P Name="NumInputPorts">1</P>
+    
+<P Name="Floating">off</P>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'THD1', 'SID': '242'}
+<P Name="Position">[1495, 502, 1530, 518]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="BlockRotation">180</P>
+    
+<P Name="BlockMirror">on</P>
+    
+<P Name="BackgroundColor">lightBlue</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="SourceBlock">spsTHDLib/THD</P>
+    
+<P Name="SourceType">THD</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">off</P>
+      <P Name="Freq">50</P>
+      <P Name="Ts">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'Voltage Measurement3', 'SID': '198'}
+<P Name="Position">[1440, 543, 1465, 567]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/Sensors and Measurements/Voltage Measurement</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="UserDataPersistent">on</P>
+    
+<P Name="SourceBlock">spsVoltageMeasurementLib/Voltage Measurement</P>
+    
+<P Name="SourceType">Voltage Measurement</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="PhasorSimulation">off</P>
+      <P Name="OutputType">Complex</P>
+      <P Name="PSBequivalent">0</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'powergui', 'SID': '50'}
+<P Name="Position">[935, 280, 1016, 319]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="Priority">1</P>
+    
+<P Name="LibrarySourceBlock">sps_lib/powergui</P>
+    
+<P Name="LibraryVersion">*13</P>
+    
+<P Name="SourceBlock">sps_lib/powergui</P>
+    
+<P Name="SourceType">PSB option menu block</P>
+    
+<InstanceData>
+      <P Name="RTWMemSecFuncInitTerm">Inherit from model</P>
+      <P Name="RTWMemSecFuncExecute">Inherit from model</P>
+      <P Name="RTWMemSecDataConstants">Inherit from model</P>
+      <P Name="RTWMemSecDataInternal">Inherit from model</P>
+      <P Name="RTWMemSecDataParameters">Inherit from model</P>
+      <P Name="ContentPreviewEnabled">on</P>
+      <P Name="SimulationMode">Discrete</P>
+      <P Name="SampleTime">2e-7</P>
+      <P Name="frequency">60</P>
+      <P Name="Iterations">50</P>
+      <P Name="frequencyindice">0</P>
+      <P Name="Pbase">100e6</P>
+      <P Name="ErrMax">1e-4</P>
+      <P Name="UnitsV">kV</P>
+      <P Name="UnitsW">MW</P>
+      <P Name="buscounter">0</P>
+      <P Name="FunctionMessages">off</P>
+      <P Name="echomessages">off</P>
+      <P Name="EnableUseOfTLC">off</P>
+      <P Name="CurrentSourceSwitches">off</P>
+      <P Name="DisableSnubberDevices">off</P>
+      <P Name="DisableRonSwitches">off</P>
+      <P Name="DisableVfSwitches">off</P>
+      <P Name="DisplayEquations">off</P>
+      <P Name="AutomaticDiscreteSolvers">off</P>
+      <P Name="SolverType">Tustin/Backward Euler (TBE)</P>
+      <P Name="Interpol">off</P>
+      <P Name="ExternalGateDelay">off</P>
+      <P Name="methode">off</P>
+      <P Name="Ts">100</P>
+      <P Name="x0status">blocks</P>
+      <P Name="SPID">on</P>
+      <P Name="SwTol">0</P>
+      <P Name="HookPort">off</P>
+      <P Name="NonlinearTolerance">1e-4</P>
+      <P Name="nMaxIteration">100</P>
+      <P Name="ContinueOnMaxIteration">off</P>
+      <P Name="RestoreLinks">warning</P>
+      <P Name="ResistiveCurrentMeasurement">off</P>
+      <P Name="Frange">[0:2:500]</P>
+      <P Name="Ylog">off</P>
+      <P Name="Xlog">on</P>
+      <P Name="ShowGrid">off</P>
+      <P Name="save">off</P>
+      <P Name="variable">ZData</P>
+      <P Name="structure">0</P>
+      <P Name="ZoomFFT">off</P>
+      <P Name="StartTime">0.0</P>
+      <P Name="cycles">1</P>
+      <P Name="DisplayStyle">1</P>
+      <P Name="fundamental">60</P>
+      <P Name="FreqAxis">off</P>
+      <P Name="MaxFrequency">1000</P>
+      <P Name="frequencyindicesteady">1</P>
+      <P Name="RmsSteady">1</P>
+      <P Name="display">off</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'r', 'SID': '122'}
+<P Name="Position">[922, 410, 948, 440]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="BlockRotation">270</P>
+    
+<P Name="BlockMirror">on</P>
+    
+<P Name="NameLocation">left</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="SourceBlock">spsSeriesRLCBranchLib/Series RLC Branch</P>
+    
+<P Name="SourceType">Series RLC Branch</P>
+    
+<InstanceData>
+      <P Name="LConnTagsString">__new0</P>
+      <P Name="RConnTagsString">__new0</P>
+      <P Name="BranchType">R</P>
+      <P Name="Resistance">0.05</P>
+      <P Name="Inductance">0</P>
+      <P Name="SetiL0">off</P>
+      <P Name="InitialCurrent">0</P>
+      <P Name="Capacitance">2e-3</P>
+      <P Name="Setx0">on</P>
+      <P Name="InitialVoltage">390</P>
+      <P Name="Measurements">None</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'Reference', 'Name': 'r1', 'SID': '193'}
+<P Name="Position">[922, 655, 948, 685]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="BlockRotation">270</P>
+    
+<P Name="BlockMirror">on</P>
+    
+<P Name="NameLocation">left</P>
+    
+<P Name="LibraryVersion">6.0</P>
+    
+<P Name="SourceBlock">spsSeriesRLCBranchLib/Series RLC Branch</P>
+    
+<P Name="SourceType">Series RLC Branch</P>
+    
+<InstanceData>
+      <P Name="LConnTagsString">__new0</P>
+      <P Name="RConnTagsString">__new0</P>
+      <P Name="BranchType">R</P>
+      <P Name="Resistance">0.05</P>
+      <P Name="Inductance">0</P>
+      <P Name="SetiL0">off</P>
+      <P Name="InitialCurrent">0</P>
+      <P Name="Capacitance">2e-3</P>
+      <P Name="Setx0">on</P>
+      <P Name="InitialVoltage">390</P>
+      <P Name="Measurements">None</P>
+    </InstanceData>
+  
+BLOCK {'BlockType': 'SubSystem', 'Name': '主从均流', 'SID': '241'}
+<P Name="Position">[975, 831, 1305, 976]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="ContentPreviewEnabled">on</P>
+    
+BLOCK {'BlockType': 'SubSystem', 'Name': '逆变器1', 'SID': '92'}
+<P Name="Position">[975, 361, 1305, 539]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="ContentPreviewEnabled">on</P>
+    
+BLOCK {'BlockType': 'SubSystem', 'Name': '逆变器2', 'SID': '124'}
+<P Name="Position">[975, 606, 1305, 784]</P>
+    
+<P Name="ZOrder">100000</P>
+    
+<P Name="ContentPreviewEnabled">on</P>
+    
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">1</P>
+    <P Name="Src">122#rconn:1</P>
+    <P Name="Dst">121#rconn:1</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">2</P>
+    <P Name="Src">121#lconn:1</P>
+    <P Name="Points">[0, -16; 0, 11]</P>
+    <P Name="Dst">92#lconn:2</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">3</P>
+    <P Name="Src">122#lconn:1</P>
+    <P Name="Points">[0, 16; 0, -6]</P>
+    <P Name="Dst">92#lconn:1</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">4</P>
+    <P Name="Src">193#lconn:1</P>
+    <P Name="Points">[0, 10]</P>
+    <P Name="Dst">124#lconn:1</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">5</P>
+    <P Name="Src">193#rconn:1</P>
+    <P Name="Dst">123#rconn:1</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">6</P>
+    <P Name="Src">123#lconn:1</P>
+    <P Name="Points">[0, -5]</P>
+    <P Name="Dst">124#lconn:2</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">7</P>
+    <P Name="Src">195#lconn:1</P>
+    <P Name="Points">[0, 0]</P>
+    <Branch ConnectType="DEST_DEST">
+      <P Name="Points">[1375, 410; 30, 0; 0, 105]</P>
+      <Branch ConnectType="SRC_DEST">
+        <P Name="Src">229#rconn:1</P>
+        <P Name="Points">[0, 0]</P>
+      </Branch>
+      <Branch ConnectType="SRC_DEST">
+        <P Name="Src">230#rconn:1</P>
+        <P Name="Points">[0, -245]</P>
+      </Branch>
+    </Branch>
+    <Branch ConnectType="DEST_DEST">
+      <P Name="Src">198#lconn:1</P>
+      <P Name="Points">[0, -35; -20, 0]</P>
+    </Branch>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">10</P>
+    <P Name="Src">195#rconn:1</P>
+    <P Name="Points">[0, 0]</P>
+    <Branch ConnectType="DEST_DEST">
+      <P Name="Src">198#lconn:2</P>
+      <P Name="Points">[0, 35; -20, 0]</P>
+    </Branch>
+    <Branch ConnectType="DEST_SRC">
+      <P Name="Points">[0, 145; -85, 0]</P>
+      <Branch ConnectType="DEST_DEST">
+        <P Name="Src">92#rconn:2</P>
+        <P Name="Points">[-2, 0; 0, 245; 2, 0]</P>
+      </Branch>
+      <Branch ConnectType="DEST_SRC">
+        <P Name="Dst">124#rconn:2</P>
+      </Branch>
+    </Branch>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">13</P>
+    <P Name="Src">198#out:1</P>
+    <P Name="Points">[1, 0]</P>
+    <Branch>
+      <P Name="ZOrder">83</P>
+      <P Name="Points">[0, -45]</P>
+      <Branch>
+        <P Name="ZOrder">98</P>
+        <P Name="Points">[0, -55]</P>
+        <P Name="Dst">236#in:1</P>
+      </Branch>
+      <Branch>
+        <P Name="ZOrder">97</P>
+        <P Name="Dst">242#in:1</P>
+      </Branch>
+    </Branch>
+    <Branch>
+      <P Name="ZOrder">82</P>
+      <P Name="Dst">196#in:1</P>
+    </Branch>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">71</P>
+    <P Name="Src">229#lconn:1</P>
+    <P Name="Dst">92#rconn:1</P>
+  </Line>
+  
+LINE <Line LineType="Connection">
+    <P Name="ZOrder">73</P>
+    <P Name="Src">230#lconn:1</P>
+    <P Name="Dst">124#rconn:1</P>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">78</P>
+    <P Name="Src">230#out:1</P>
+    <P Name="Dst">235#in:1</P>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">79</P>
+    <P Name="Src">229#out:1</P>
+    <P Name="Dst">234#in:1</P>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">80</P>
+    <P Name="Src">234#out:1</P>
+    <P Name="Dst">231#in:1</P>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">81</P>
+    <P Name="Src">235#out:1</P>
+    <P Name="Dst">232#in:1</P>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">84</P>
+    <P Name="Src">236#out:1</P>
+    <P Name="Dst">237#in:1</P>
+  </Line>
+  
+LINE <Line>
+    <P Name="ZOrder">99</P>
+    <P Name="Src">242#out:1</P>
+    <P Name="Dst">243#in:1</P>
+  </Line>
+
+
+FILE simulink/systems/system_241.xml
+
+FILE simulink/systems/system_4.xml
+
+FILE simulink/systems/system_10.xml
+
+FILE simulink/systems/system_127.xml
+
+FILE simulink/systems/system_133.xml
+
+FILE simulink/systems/system_51.xml
+
+FILE simulink/systems/system_168.xml
+
+FILE simulink/systems/system_92.xml
+
+FILE simulink/systems/system_124.xml
+
+FILE simulink/configSet0.xml
+{'Name': 'StartTime'} 0.0
+{'Name': 'StopTime'} 0.1
+{'Name': 'FixedStep'} auto
+{'Name': 'MaxStep'} 1/20000/100
+{'Name': 'RelTol'} 1e-3
+
+FILE simulink/configSetInfo.xml
+
+FILE simulink/stateflow/chart_15.xml
+SCRIPT function out_A  = fcn(err_A, Kp, Kr, Wc, Ts)
+
+W0 = 50*2*pi;
+
+
+persistent err_A1;
+persistent err_A2;
+persistent out_A1;
+persistent out_A2;
+
+
+%%对三相静态变量初始化
+if isempty(err_A1)
+    err_A1 = 0;
+end
+if isempty(err_A2)
+    err_A2 = 0;
+end
+if isempty(out_A1)
+    out_A1 = 0;
+end
+if isempty(out_A2)
+    out_A2 = 0;
+end
+
+
+%%Discrete
+t1 = Wc * Ts;
+t2 = W0^2 * Ts^2;
+t3 = t2 + 4*t1 + 4;
+
+b0 = (Kp*t2 + 4*(Kp+Kr)*t1 + 4*Kp) / t3;
+b1 = (2*Kp*t2 - 8*Kp) / t3;
+b2 = (Kp*t2 + 4*Kp - 4*(Kp+Kr)*t1) / t3;
+a1 = (2*t2 - 8) / t3;
+a2 = (t2 - 4*t1 + 4) / t3;
+%%限制输出
+if b0>3000
+    b0=0;
+end
+if b0<-3000
+    b0=0;
+end
+
+%%计算输出量
+out_A = b0*err_A + b1*err_A1 + b2*err_A2 - a1*out_A1 - a2*out_A2;
+out_A2 = out_A1;
+out_A1 = out_A;
+err_A2 = err_A1;
+err_A1 = err_A;
+
+
+FILE simulink/stateflow/chart_26.xml
+SCRIPT function out_A  = fcn(err_A, Kp, Kr, Wc, Ts)
+
+W0 = 50*2*pi;
+
+
+persistent err_A1;
+persistent err_A2;
+persistent out_A1;
+persistent out_A2;
+
+
+%%对三相静态变量初始化
+if isempty(err_A1)
+    err_A1 = 0;
+end
+if isempty(err_A2)
+    err_A2 = 0;
+end
+if isempty(out_A1)
+    out_A1 = 0;
+end
+if isempty(out_A2)
+    out_A2 = 0;
+end
+
+
+%%Discrete
+t1 = Wc * Ts;
+t2 = W0^2 * Ts^2;
+t3 = t2 + 4*t1 + 4;
+
+b0 = (Kp*t2 + 4*(Kp+Kr)*t1 + 4*Kp) / t3;
+b1 = (2*Kp*t2 - 8*Kp) / t3;
+b2 = (Kp*t2 + 4*Kp - 4*(Kp+Kr)*t1) / t3;
+a1 = (2*t2 - 8) / t3;
+a2 = (t2 - 4*t1 + 4) / t3;
+%%限制输出
+if b0>3000
+    b0=0;
+end
+if b0<-3000
+    b0=0;
+end
+
+%%计算输出量
+out_A = b0*err_A + b1*err_A1 + b2*err_A2 - a1*out_A1 - a2*out_A2;
+out_A2 = out_A1;
+out_A1 = out_A;
+err_A2 = err_A1;
+err_A1 = err_A;
+

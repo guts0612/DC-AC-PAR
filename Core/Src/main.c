@@ -46,11 +46,12 @@
 /* dcac 的差分 ADC、HRTIM 触发与 UART4 配置。 */
 #define ADC_DIFF_ZERO_CODE         2048
 #define VOFA_OUTPUT_ENABLE         1U
-/* 七通道：20 kHz / 10 = 2000 帧/s，50 Hz 正弦每周期 40 点。
- * 32 字节、8N1 占用 640000 bit/s；UART4 和 VOFA 均设置为 921600 baud。
+/* 八通道：20 kHz / 10 = 2000 帧/s，50 Hz 正弦每周期 40 个波形点。
+ * 36 字节、8N1 占用 720000 bit/s；UART4 和 VOFA 均设置为 921600 baud。
+ * CH8 的 RMS 使用全部 20 kHz 样本，每个 50 Hz 周期更新一次。
  */
 #define VOFA_SAMPLE_DIV            10U
-/* 1: 400 个全速控制样本的有符号均值；0: 原六通道瞬时波形。 */
+/* 1: CH1~6 为400点有符号均值；0: CH1~7为瞬时波形。CH8始终为RMS。 */
 #define VOFA_MEAN_OUTPUT_ENABLE    0U
 #define VOFA_MEAN_SAMPLE_COUNT     400U
 #define VOFA_UART_TIMEOUT_MS       5U
@@ -143,7 +144,7 @@ volatile uint32_t adc4_error_count;
 
 
 #if VOFA_OUTPUT_ENABLE
-/* 单槽邮箱：保留同一窗口均值或同一控制拍的六个量；主循环发送。 */
+/* 单槽邮箱：CH1~7保留原定义；CH8为最近一个完整周期的电压RMS。 */
 volatile float vofa_ch1;
 volatile float vofa_ch2;
 volatile float vofa_ch3;
@@ -151,6 +152,23 @@ volatile float vofa_ch4;
 volatile float vofa_ch5;
 volatile float vofa_ch6;
 volatile float vofa_ch7;
+volatile float vofa_ch8;
+/* 仅用于观测，不反馈给QPR。这里的RMS是采样带宽内的有效值。
+ * RMS=sqrt(sum(u[k]^2)/N)，保留采样信号的直流分量及谐波。
+ * AC_RMS=sqrt(RMS^2-mean^2)供Watch对照交流档；互感器看不到实际输出DC。
+ * 20 kHz/50 Hz时N=400；每拍平方累加，一周期才开方，避免串口抽点偏差。
+ */
+volatile float output_voltage_rms_v;
+volatile float output_voltage_mean_v;
+volatile float output_voltage_ac_rms_v;
+volatile uint8_t output_voltage_rms_valid; /* 首个完整窗口之前及模式切换后为0。 */
+volatile uint32_t output_voltage_rms_window_count;
+uint32_t output_voltage_rms_window_samples;
+static float voltage_rms_square_sum;
+static float voltage_rms_sum;
+static float voltage_rms_mean_scale;
+static uint32_t voltage_rms_count;
+static uint8_t voltage_rms_mode;
 /* 均值窗口只由 ADC ISR 访问，单精度累加使用 M4F 硬件浮点。 */
 static float vofa_mean_sum[6];
 static uint32_t vofa_mean_count;
@@ -161,7 +179,7 @@ volatile uint32_t adc_sample_div_count;
 volatile uint32_t vofa_sent_count;        /* HAL 返回成功的完整帧数 */
 volatile uint32_t vofa_tx_error_count;    /* HAL 超时、忙或错误的累计次数 */
 volatile uint32_t vofa_overwrite_count;   /* 主循环未取走就被新采样覆盖的帧数 */
-static uint8_t vofa_frame[32];  /* 七个 float（28 字节）+ JustFloat 帧尾（4 字节）。 */
+static uint8_t vofa_frame[36];  /* 八个 float（32 字节）+ JustFloat 帧尾（4 字节）。 */
 typedef char VofaRequires32BitFloat[(sizeof(float) == 4U) ? 1 : -1];
 #endif
 /* USER CODE END PV */
@@ -361,6 +379,12 @@ static void HRTIM_SPWM_Init(void)
     {
         Error_Handler();
     }
+#if VOFA_OUTPUT_ENABLE
+    /* 按实际控制频率取一基波周期的点数，不依赖VOFA抽点倍数。 */
+    output_voltage_rms_window_samples =
+        (uint32_t)(spwm_update_hz / SPWM_OUTPUT_FREQUENCY_HZ + 0.5f);
+    voltage_rms_mean_scale = 1.0f / (float)output_voltage_rms_window_samples;
+#endif
 
     if ((__HAL_HRTIM_GETPERIOD(&hhrtim1, HRTIM_TIMERINDEX_TIMER_C) != Period) ||
         (__HAL_HRTIM_GETPERIOD(&hhrtim1, HRTIM_TIMERINDEX_TIMER_D) != Period) ||
@@ -449,6 +473,48 @@ static void ADC_Sampling_Init(void)
 }
 
 #if VOFA_OUTPUT_ENABLE
+/* 在两组ADC样本配齐后、VOFA抽点之前调用，开环/闭环均可观测。
+ * 模式切换时丢弃半个旧窗口；0表示尚未完成新窗口，约20ms后有效。
+ */
+static void VOFA_AccumulateVoltageRms(uint8_t closed_loop)
+{
+    float mean_square;
+    float ac_mean_square;
+    float rms_v;
+    float ac_rms_v;
+    const float voltage_v = true_voltage;
+
+    if (closed_loop != voltage_rms_mode)
+    {
+        voltage_rms_square_sum = 0.0f;
+        voltage_rms_sum = 0.0f;
+        voltage_rms_count = 0U;
+        voltage_rms_mode = closed_loop;
+        output_voltage_rms_v = 0.0f;
+        output_voltage_mean_v = 0.0f;
+        output_voltage_ac_rms_v = 0.0f;
+        output_voltage_rms_valid = 0U;
+    }
+    voltage_rms_square_sum += voltage_v * voltage_v;
+    voltage_rms_sum += voltage_v;
+    voltage_rms_count++;
+    if (voltage_rms_count < output_voltage_rms_window_samples) return;
+
+    mean_square = voltage_rms_square_sum * voltage_rms_mean_scale;
+    output_voltage_mean_v = voltage_rms_sum * voltage_rms_mean_scale;
+    (void)arm_sqrt_f32(mean_square, &rms_v);
+    output_voltage_rms_v = rms_v;
+    ac_mean_square = mean_square - output_voltage_mean_v * output_voltage_mean_v;
+    if (ac_mean_square < 0.0f) ac_mean_square = 0.0f; /* 消除浮点舍入造成的微小负数。 */
+    (void)arm_sqrt_f32(ac_mean_square, &ac_rms_v);
+    output_voltage_ac_rms_v = ac_rms_v;
+    voltage_rms_square_sum = 0.0f;
+    voltage_rms_sum = 0.0f;
+    voltage_rms_count = 0U;
+    output_voltage_rms_window_count++;
+    output_voltage_rms_valid = 1U;
+}
+
 /* 每拍调用；完成窗口时一次发布六个结果。不是 RMS，也不是抽点平均。
  * 固定 400 点在当前 20 kHz/50 Hz 配置下对应一个基波周期。
  */
@@ -483,13 +549,14 @@ static void VOFA_AccumulateMean(uint8_t closed_loop)
     vofa_ch6 = vofa_mean_sum[5] * scale; /* CH6：平均实测母线电压，V */
     /* CH7始终为最近一次完成的辅助电流样本，不随CH1~6切换为均值。 */
     vofa_ch7 = true_aux_current;
+    vofa_ch8 = output_voltage_rms_v; /* CH8不随CH1~6切换为均值。 */
     for (i = 0U; i < 6U; ++i) vofa_mean_sum[i] = 0.0f;
     vofa_mean_count = 0U;
     vofa_mean_window_count++;
     vofa_frame_ready = 1U;
 }
 
-static void VOFA_SendJustFloat(float ch1, float ch2, float ch3, float ch4, float ch5, float ch6, float ch7)
+static void VOFA_SendJustFloat(float ch1, float ch2, float ch3, float ch4, float ch5, float ch6, float ch7, float ch8)
 {
     HAL_StatusTypeDef status;
 
@@ -500,13 +567,14 @@ static void VOFA_SendJustFloat(float ch1, float ch2, float ch3, float ch4, float
     memcpy(&vofa_frame[16], &ch5, sizeof(ch5));
     memcpy(&vofa_frame[20], &ch6, sizeof(ch6));
     memcpy(&vofa_frame[24], &ch7, sizeof(ch7));
-    vofa_frame[28] = 0x00U;
-    vofa_frame[29] = 0x00U;
-    vofa_frame[30] = 0x80U;
-    vofa_frame[31] = 0x7FU;
+    memcpy(&vofa_frame[28], &ch8, sizeof(ch8));
+    vofa_frame[32] = 0x00U;
+    vofa_frame[33] = 0x00U;
+    vofa_frame[34] = 0x80U;
+    vofa_frame[35] = 0x7FU;
 
     /* 主循环轮询发送，等待期间允许 HRTIM/ADC 中断继续运行。
-     * 921600 下 32 字节在线时间约 0.347 ms，小于 0.5 ms 采样间隔。
+     * 921600 下 36 字节在线时间约 0.391 ms，小于 0.5 ms 采样间隔。
      * 中断抢占会延长实际发送时间；仍保留 5 ms 超时及丢帧计数用于诊断。
      */
     status = HAL_UART_Transmit(&huart4, vofa_frame,
@@ -532,13 +600,14 @@ static void VOFA_Process(void)
     float ch5;
     float ch6;
     float ch7;
+    float ch8;
 
     if (vofa_frame_ready == 0U)
     {
         return;
     }
 
-    /* 一次取走完整七通道快照；保留调用前的中断屏蔽状态。 */
+    /* 一次取走完整八通道快照；保留调用前的中断屏蔽状态。 */
     primask = __get_PRIMASK();
     __disable_irq();
     ch1 = vofa_ch1;
@@ -548,11 +617,12 @@ static void VOFA_Process(void)
     ch5 = vofa_ch5;
     ch6 = vofa_ch6;
     ch7 = vofa_ch7;
+    ch8 = vofa_ch8;
 
     vofa_frame_ready = 0U;
     __set_PRIMASK(primask);
 
-    VOFA_SendJustFloat(ch1, ch2, ch3, ch4, ch5, ch6, ch7);
+    VOFA_SendJustFloat(ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8);
 }
 #endif
 /* USER CODE END 0 */
@@ -785,6 +855,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 
     /* ADC ISR 只计算控制和准备遥测；阻塞式串口发送仍在主循环。 */
 #if VOFA_OUTPUT_ENABLE
+    VOFA_AccumulateVoltageRms(closed_loop);
     if (VOFA_MEAN_OUTPUT_ENABLE != 0U)
     {
         VOFA_AccumulateMean(closed_loop);
@@ -801,12 +872,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
             }
             vofa_ch1 = voltage_reference_v;  /* CH1：参考电压，V */
             vofa_ch2 = true_voltage;         /* CH2：输出电压，V */
-            vofa_ch3 = qpr_control.current_reference_a;  /* CH3：补偿前原始电流参考，A */
+            vofa_ch3 = qpr_control.current_reference_a;  /* CH3：误差DC补偿后虚拟阻抗电流参考，A */
             vofa_ch4 = true_current;         /* CH4：滤波电感电流，A */
-            vofa_ch5 = qpr_control.bridge_reference_v;  /* CH5：未限幅的 QPR 校正电压，V */
+            vofa_ch5 = qpr_control.bridge_reference_v;  /* CH5：参考前馈+限幅后QPR校正，V */
             /* CH6/CH7来自与主机同一触发的ADC3/4快照。 */
             vofa_ch6 = true_aux_current;             /* CH6：辅助电感电流，A */
             vofa_ch7 = dc_bus_voltage_v;             /* CH7：实测直流母线电压，V */
+            vofa_ch8 = output_voltage_rms_v;         /* CH8：输出电压一周期有效值，V */
             
             vofa_frame_ready = 1U;
         }
