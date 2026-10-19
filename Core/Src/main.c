@@ -874,7 +874,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
             vofa_ch2 = true_voltage;         /* CH2：输出电压，V */
             vofa_ch3 = qpr_control.current_reference_a;  /* CH3：误差DC补偿后虚拟阻抗电流参考，A */
             vofa_ch4 = true_current;         /* CH4：滤波电感电流，A */
-            vofa_ch5 = qpr_control.bridge_reference_v;  /* CH5：参考前馈+限幅后QPR校正，V */
+            vofa_ch5 = qpr_control.qpr_correction_v;  /* CH5：限幅后QPR输出（校正量），V */
             /* CH6/CH7来自与主机同一触发的ADC3/4快照。 */
             vofa_ch6 = true_aux_current;             /* CH6：辅助电感电流，A */
             vofa_ch7 = dc_bus_voltage_v;             /* CH7：实测直流母线电压，V */

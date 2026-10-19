@@ -1,0 +1,56 @@
+{
+  "timestamp_utc": "2026-10-16T05:53:43.799732+00:00",
+  "scope": "Host mocked HAL and ARM translation-unit compile; no hardware validation",
+  "source_sha256": {
+    "adc_diff.c": "a53529b31a6ae3237e9a8419e28ebae174612c8ed9a81655888d12f625ce5f03",
+    "adc_diff.h": "ccabf1399f11cab34d7f4dbbd514d13938dffa21238dc0331b13ee4ed4d75444",
+    "Core\\Src\\main.c": "650418e1cc818a395fa8e40ed3110605bc713c1d0fcdf2d558bd90115854ad2c",
+    "Core\\Src\\adc.c": "408172b6a3d8c602d3de5e0f632f77aace3fa86aec7abef7a3c993859496d9df",
+    "Drivers\\STM32G4xx_HAL_Driver\\Src\\stm32g4xx_hal_adc_ex.c": "ac4d019e71cc5d9dc02984f16c42b97c811a4aaad12d46532f9aca3cccdf1a26"
+  },
+  "baseline_calibration": [
+    "#define VOLTAGE_ZERO (-3)",
+    "#define CURRENT_ZERO (-8)",
+    "#define BUS_ZERO (16)",
+    "#define AUX_ZERO (-15)",
+    "#define VOLTAGE_GAIN 12.8f",
+    "#define CURRENT_GAIN 2.400384f",
+    "#define BUS_GAIN 24.18717f",
+    "#define AUX_GAIN 2.400384f"
+  ],
+  "checks": [
+    {
+      "name": "host_exhaustive_and_lifecycle",
+      "passed": true,
+      "output": "PASS all 4096 raw codes on four calibrated channels, paired decode and stable snapshots\nPASS callback routing, error invalidation, start failure rollback, stop retry and PRIMASK restoration\nPASS invalid parameters/configuration and physical offset ordering\n"
+    },
+    {
+      "name": "actual_hal_armcc_compile",
+      "passed": true,
+      "diagnostics": "",
+      "command": [
+        "D:\\tools\\keil\\core\\ARM\\ARMCC\\Bin\\armcc.exe",
+        "--cpu",
+        "Cortex-M4.fp",
+        "--c99",
+        "-O2",
+        "-DUSE_HAL_DRIVER",
+        "-DSTM32G474xx",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Core\\Inc",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\STM32G4xx_HAL_Driver\\Inc",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\STM32G4xx_HAL_Driver\\Inc\\Legacy",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\CMSIS\\Device\\ST\\STM32G4xx\\Include",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\CMSIS\\Include",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Hardware",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Middlewares\\ST\\ARM\\DSP\\Inc",
+        "-c",
+        "D:\\study\\hal\\DC-AC-PAR\\adc_diff.c",
+        "-o",
+        "C:\\Users\\28384\\AppData\\Local\\Temp\\dcac_adc_diff_9b83xrtd\\adc_diff.o"
+      ]
+    }
+  ],
+  "source_unchanged": true,
+  "temporary_files_removed": true,
+  "checks_passed": true
+}

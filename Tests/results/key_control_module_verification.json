@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "checks": 1538827,
+  "scan_ticks": 285613,
+  "event_comparisons": 803,
+  "control_action_comparisons": 3196,
+  "control_input_combinations": 81,
+  "random_segments": 12000,
+  "reserved_PE2_verified": true,
+  "coverage": [
+    "pre_init_scan",
+    "20ms_press_release_debounce",
+    "bounce_and_short_pulse",
+    "long_hold_no_repeat",
+    "PE0_priority_simultaneous_release",
+    "pending_bit_coalescing",
+    "boot_held_no_release_event",
+    "reinitialize",
+    "uint32_tick_wrap_press_and_release",
+    "PRIMASK_restore_0_and_1",
+    "master_open_closed_toggle",
+    "slave_request_toggle_and_fault_gate",
+    "open_loop_PB9_no_queue",
+    "original_Slave_Stop_side_effects",
+    "null_binding_preserves_events",
+    "seeded_random_differential",
+    "PE2_debounce_hold_and_release",
+    "PE2_boot_held_and_tick_wrap",
+    "three_key_priority_and_coalescing",
+    "PE2_process_no_control_side_effects"
+  ],
+  "compiler": "D:\\tools\\mingw64\\bin\\gcc.EXE",
+  "compiler_flags": "-std=c99 -Wall -Wextra -Werror -O2",
+  "software_only": true,
+  "baseline_main_actions_sha256": "af9c55cc4ccb9d8f85de37f9bb1203b1a747a0df3768be1c3f2675507457b1e7",
+  "baseline_slave_stop_sha256": "f17ee7874da932db0ed8b440eaf479db8b126d854bbaded2555c44ffe86d164f",
+  "source_sha256": {
+    "key_control.c": "a307a5ef4018584bbef85df6e7c2452b0db4b874c858863a1d9dc768f9b6cf09",
+    "key_control.h": "7e1d6e872f733b70a93de3b3c05e6767513046d5937d3f6e5c32f87f05c0adf2",
+    "Hardware\\key.c": "a87cef6361247fb9f0a4f3d015106b137a2f26ff2fff9896d8f6dc466ab15b79"
+  }
+}

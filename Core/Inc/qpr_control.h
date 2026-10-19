@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 /* singlephase.slx / Digital PR，Wc 的单位是 rad/s，不是 Hz。 */
-#define QPR_KP                         1.3f
-#define QPR_KR                         10.0f
+#define QPR_KP                         3.0f
+#define QPR_KR                         21.0f
 #define QPR_WC_RAD_S                   5.0f
 #define QPR_FREQUENCY_HZ               50.0f
 #define QPR_VIRTUAL_L_H                0.001f

@@ -1,0 +1,21 @@
+{
+  "created_utc": "2026-10-16T05:09:15.617109+00:00",
+  "scope": "Real root module, host HAL/CMSIS stubs, extracted original main.c differential checks",
+  "limitations": "No physical UART/VOFA, target interrupt timing or hardware validation",
+  "source_sha256": {
+    "justfloat.c": "56435b9b952230b994bfda5d27dcf439a8786ef0684d013f222fc046bb37244c",
+    "justfloat.h": "9d72c2998feef5e13e4004a08dc5d237075659cf6403b082acbadc690a93f921",
+    "Core\\Src\\main.c": "650418e1cc818a395fa8e40ed3110605bc713c1d0fcdf2d558bd90115854ad2c"
+  },
+  "compiler": "D:\\tools\\mingw64\\bin\\gcc.EXE",
+  "mode": "waveform",
+  "differential_samples": 7500,
+  "output": [
+    "PASS 7500 per-sample state and transmitted-byte comparisons with original main.c",
+    "PASS initialization guards, 36-byte framing and all HAL status counters",
+    "PASS channel mappings, decimation, all-sample RMS/DC/harmonics and mode reset",
+    "PASS mailbox overwrite, PRIMASK restoration, failure discard and ADC arrival during send",
+    "PASS waveform-only mode"
+  ],
+  "passed": true
+}

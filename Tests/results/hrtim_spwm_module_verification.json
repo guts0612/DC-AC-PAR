@@ -1,0 +1,48 @@
+{
+  "timestamp_utc": "2026-10-16T05:54:09.958025+00:00",
+  "scope": "Software mock/model and ARM translation-unit checks; no hardware waveform, dead-time, ADC aperture, timing or power-stage validation.",
+  "sources_sha256": {
+    "hrtim_spwm.c": "39d8bc58288420e6519698e0d86d87e06e0febb5db461e788c7ef7695d8d5841",
+    "hrtim_spwm.h": "a47bf01cab2e1799711b68b3c1c8d3a08d68a57845c7b20a557aaf1e7be52335",
+    "Core\\Src\\main.c": "650418e1cc818a395fa8e40ed3110605bc713c1d0fcdf2d558bd90115854ad2c",
+    "Core\\Inc\\qpr_control.h": "b66b51a28307736a3978f18223016d99b4ef69203b911f8eef2ab7dbce3d0a53",
+    "Drivers\\STM32G4xx_HAL_Driver\\Inc\\stm32g4xx_hal_hrtim.h": "3b599547d1b7937188a14b84274e7eab675011a4128183aec19cd00475ab5811",
+    "Drivers\\CMSIS\\Device\\ST\\STM32G4xx\\Include\\stm32g474xx.h": "686e5a833700e137658719a93c9254bc5e530b6248067396c68dcb5573c447a3"
+  },
+  "checks": [
+    {
+      "name": "host_model",
+      "passed": true,
+      "output": "PASS initialization: 23 HAL failure positions, M/A/B only, no automatic outputs\nPASS 60003 original-formula comparisons; injected valley between writes; PRIMASK and unrelated update bits\nPASS first-zero-count start, separate output control, stop prevents restart, unrelated timer preserved\nPASS null/uninitialized/busy/invalid inputs; rejected requests do not write compares\n"
+    },
+    {
+      "name": "armcc_actual_hal",
+      "passed": true,
+      "command": [
+        "D:\\tools\\keil\\core\\ARM\\ARMCC\\Bin\\armcc.exe",
+        "--cpu",
+        "Cortex-M4.fp",
+        "--c99",
+        "-O2",
+        "-DUSE_HAL_DRIVER",
+        "-DSTM32G474xx",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Core\\Inc",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\STM32G4xx_HAL_Driver\\Inc",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\STM32G4xx_HAL_Driver\\Inc\\Legacy",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\CMSIS\\Device\\ST\\STM32G4xx\\Include",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Drivers\\CMSIS\\Include",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Hardware",
+        "-ID:\\study\\hal\\DC-AC-PAR\\Middlewares\\ST\\ARM\\DSP\\Inc",
+        "-c",
+        "D:\\study\\hal\\DC-AC-PAR\\hrtim_spwm.c",
+        "-o",
+        "C:\\Users\\28384\\AppData\\Local\\Temp\\dcac_hrtim_spwm_g_evdrxp\\hrtim_spwm.o"
+      ],
+      "output": "",
+      "object_bytes": 6600
+    }
+  ],
+  "temporary_intermediates_removed": true,
+  "sources_unchanged_during_checks": true,
+  "checks_passed": true
+}
