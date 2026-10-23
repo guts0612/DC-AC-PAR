@@ -76,13 +76,13 @@ int main(void){
  assert(compares[0]==111 && compares[1]==222 && irq_mask==0);
  QPR_Control c;assert(QPR_ControlInit(&c,20000));
  assert(fabsf(QPR_CurrentStep(&c,0,0,24,48)-0.5f)<1e-6f);
- assert(c.voltage_error_previous_v==0 && c.resonant_g>0);
+ assert(c.voltage_error_previous_v==0 && c.pr.A0>QPR_KP);
  for(unsigned i=0;i<1000;i++)QPR_CurrentStep(&c,100,0,0,48);
- assert(c.resonant_r==0 && c.modulation<=QPR_MODULATION_LIMIT);
+ assert(c.pr.Vo1==0 && c.pr.Vo2==0 && c.pr.Vi1==0 && c.pr.Vi2==0 && c.modulation<=QPR_MODULATION_LIMIT);
  puts("PASS: startup/off, PB9/open interlock, zero-cross admission, soft sharing, toggle/disconnect, unchanged A/B writes, timing/overcurrent/NaN faults, PR feedforward and antiwindup");
 }
 '''.replace('__GLOBALS__',globals_).replace('__HELPERS__',helpers).replace('__KEY__',key)
 with tempfile.TemporaryDirectory(prefix='slave_test_') as d:
     c=Path(d)/'test.c'; exe=Path(d)/'test.exe'; c.write_text(harness,encoding='utf-8')
-    subprocess.run(['D:/tools/mingw64/bin/gcc.exe','-std=c11','-Wall','-Wextra','-Werror','-I'+str(root/'Core/Inc'),str(c),str(root/'Core/Src/qpr_control.c'),'-o',str(exe)],check=True)
+    subprocess.run(['D:/tools/mingw64/bin/gcc.exe','-std=c11','-Wall','-Wextra','-Werror','-I'+str(root/'Core/Inc'),str(c),str(root/'Core/Src/qpr_control.c'),str(root/'Core/Src/PR.c'),'-o',str(exe)],check=True)
     subprocess.run([str(exe)],check=True)

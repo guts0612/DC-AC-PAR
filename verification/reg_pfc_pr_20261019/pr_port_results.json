@@ -1,0 +1,334 @@
+{
+  "scope": "Host GCC numeric/API checks only; no plant, ADC/PWM or MCU timing validation",
+  "compiler": "D:\\tools\\mingw64\\bin\\gcc.EXE",
+  "compiler_flags": [
+    "-std=c11",
+    "-O2",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "sample_frequency_hz": 20000,
+  "source_sha256": {
+    "Core/Src/PR.c": "4eb47c72d3facf9541d24abec8a17066b976a8bd463b1c3534e8f763155f8f77",
+    "Core/Inc/PR.h": "03919b52367083bfa6b77e9329137ec53c646e2a273d9e460033c7ecc4fcfdfa",
+    "Core/Src/qpr_control.c": "d47826dda979185e10d1d004fce38a84741abeaca51d1c3a6874895d59ec0931",
+    "Core/Inc/qpr_control.h": "667ca04e497c16428ffde82dcf261d1cadaf679dbeb9004d1bed75c065f6d633"
+  },
+  "boundary_checks": "PASS: independent states, reset/open loop, both saturation directions, slave conditional freeze/reversal and invalid input/state faults",
+  "results": [
+    {
+      "parameters": "saved",
+      "kp": 3.0,
+      "kr": 21.0,
+      "implementation": "ported",
+      "responses": [
+        {
+          "frequency_hz": 0,
+          "gain": 2.99903670168,
+          "phase_deg": 0,
+          "archive_max_error_v": 0,
+          "analytic_gain": 3.0,
+          "analytic_phase_deg": 0.0,
+          "gain_error_percent": -0.032109943999991675,
+          "phase_error_deg": 0.0
+        },
+        {
+          "frequency_hz": 49,
+          "gain": 15.0612358698,
+          "phase_deg": 42.7330745305,
+          "archive_max_error_v": 0,
+          "analytic_gain": 15.045809431392572,
+          "analytic_phase_deg": 42.735969980948965,
+          "gain_error_percent": 0.10252980059179961,
+          "phase_error_deg": -0.0028954504489675514
+        },
+        {
+          "frequency_hz": 50,
+          "gain": 24.0026736045,
+          "phase_deg": -0.10964758465,
+          "archive_max_error_v": 0,
+          "analytic_gain": 23.999980283467924,
+          "analytic_phase_deg": -0.06477017003401986,
+          "gain_error_percent": 0.011222180186254427,
+          "phase_error_deg": -0.044877414615980146
+        },
+        {
+          "frequency_hz": 51,
+          "gain": 15.1898533384,
+          "phase_deg": -42.3938310162,
+          "archive_max_error_v": 0,
+          "analytic_gain": 15.205498803907238,
+          "analytic_phase_deg": -42.392655155198106,
+          "gain_error_percent": -0.10289347103310531,
+          "phase_error_deg": -0.001175861001890155
+        },
+        {
+          "frequency_hz": 150,
+          "gain": 3.01348870813,
+          "phase_deg": -4.76960392666,
+          "archive_max_error_v": 0,
+          "analytic_gain": 3.0134264457246673,
+          "analytic_phase_deg": -4.769821940307472,
+          "gain_error_percent": 0.002066166420666704,
+          "phase_error_deg": 0.0002180136474718708
+        },
+        {
+          "frequency_hz": 1000,
+          "gain": 3.00023820081,
+          "phase_deg": -0.634567081961,
+          "archive_max_error_v": 0,
+          "analytic_gain": 3.0002365958141177,
+          "analytic_phase_deg": -0.634586669970299,
+          "gain_error_percent": 5.349564380363603e-05,
+          "phase_error_deg": 1.9588009299020825e-05
+        },
+        {
+          "frequency_hz": 5000,
+          "gain": 3.00000624718,
+          "phase_deg": -0.100268762107,
+          "archive_max_error_v": 0,
+          "analytic_gain": 3.0000059069725373,
+          "analytic_phase_deg": -0.10027364702179126,
+          "gain_error_percent": 1.1340226424572108e-05,
+          "phase_error_deg": 4.884914791253303e-06
+        }
+      ]
+    },
+    {
+      "parameters": "saved",
+      "kp": 3.0,
+      "kr": 21.0,
+      "implementation": "previous",
+      "responses": [
+        {
+          "frequency_hz": 0,
+          "gain": 2.99999922514,
+          "phase_deg": 0,
+          "archive_max_error_v": 0.000609517097473,
+          "analytic_gain": 3.0,
+          "analytic_phase_deg": 0.0,
+          "gain_error_percent": -2.5828666672111922e-05,
+          "phase_error_deg": 0.0
+        },
+        {
+          "frequency_hz": 49,
+          "gain": 15.045788905,
+          "phase_deg": 42.7359822077,
+          "archive_max_error_v": 0.00231337547302,
+          "analytic_gain": 15.045809431392572,
+          "analytic_phase_deg": 42.735969980948965,
+          "gain_error_percent": -0.00013642597738172668,
+          "phase_error_deg": 1.2226751032073935e-05
+        },
+        {
+          "frequency_hz": 50,
+          "gain": 24.000027725,
+          "phase_deg": -0.0647027612471,
+          "archive_max_error_v": 0.00322584807873,
+          "analytic_gain": 23.999980283467924,
+          "analytic_phase_deg": -0.06477017003401986,
+          "gain_error_percent": 0.0001976732127095815,
+          "phase_error_deg": 6.740878691985364e-05
+        },
+        {
+          "frequency_hz": 51,
+          "gain": 15.2055115739,
+          "phase_deg": -42.3925995251,
+          "archive_max_error_v": 0.00226163864136,
+          "analytic_gain": 15.205498803907238,
+          "analytic_phase_deg": -42.392655155198106,
+          "gain_error_percent": 8.39827283938277e-05,
+          "phase_error_deg": 5.563009810316544e-05
+        },
+        {
+          "frequency_hz": 150,
+          "gain": 3.01342646708,
+          "phase_deg": -4.76982176862,
+          "archive_max_error_v": 0.000448621809483,
+          "analytic_gain": 3.0134264457246673,
+          "analytic_phase_deg": -4.769821940307472,
+          "gain_error_percent": 7.086727649152635e-07,
+          "phase_error_deg": 1.7168747223905712e-07
+        },
+        {
+          "frequency_hz": 1000,
+          "gain": 3.00023653131,
+          "phase_deg": -0.634586690457,
+          "archive_max_error_v": 0.000120914541185,
+          "analytic_gain": 3.0002365958141177,
+          "analytic_phase_deg": -0.634586669970299,
+          "gain_error_percent": -2.149967692766097e-06,
+          "phase_error_deg": -2.048670100229799e-08
+        },
+        {
+          "frequency_hz": 5000,
+          "gain": 3.00000590561,
+          "phase_deg": -0.100273645207,
+          "archive_max_error_v": 0.000184934935533,
+          "analytic_gain": 3.0000059069725373,
+          "analytic_phase_deg": -0.10027364702179126,
+          "gain_error_percent": -4.541781395417388e-08,
+          "phase_error_deg": 1.8147912617116901e-09
+        }
+      ]
+    },
+    {
+      "parameters": "user_trial",
+      "kp": 1.0,
+      "kr": 1.6,
+      "implementation": "ported",
+      "responses": [
+        {
+          "frequency_hz": 0,
+          "gain": 1.00075896438,
+          "phase_deg": 0,
+          "archive_max_error_v": 0,
+          "analytic_gain": 1.0,
+          "analytic_phase_deg": 0.0,
+          "gain_error_percent": 0.07589643799998935,
+          "phase_error_deg": 0.0
+        },
+        {
+          "frequency_hz": 49,
+          "gain": 1.79682084445,
+          "phase_deg": 25.4571130133,
+          "archive_max_error_v": 0,
+          "analytic_gain": 1.7911638679888822,
+          "analytic_phase_deg": 25.741926362397457,
+          "gain_error_percent": 0.31582685215001405,
+          "phase_error_deg": -0.28481334909745826
+        },
+        {
+          "frequency_hz": 50,
+          "gain": 2.60026201845,
+          "phase_deg": -0.467022017086,
+          "archive_max_error_v": 0,
+          "analytic_gain": 2.599998151123834,
+          "analytic_phase_deg": -0.045552637123946214,
+          "gain_error_percent": 0.010148750530913908,
+          "phase_error_deg": -0.4214693799620538
+        },
+        {
+          "frequency_hz": 51,
+          "gain": 1.7992806987,
+          "phase_deg": -25.9213553016,
+          "archive_max_error_v": 0,
+          "analytic_gain": 1.8048110488112339,
+          "analytic_phase_deg": -25.643872258004333,
+          "gain_error_percent": -0.3064226648477386,
+          "phase_error_deg": -0.2774830435956659
+        },
+        {
+          "frequency_hz": 150,
+          "gain": 1.00034694658,
+          "phase_deg": -1.09361956001,
+          "archive_max_error_v": 0,
+          "analytic_gain": 1.000410018514055,
+          "analytic_phase_deg": -1.0934779403571524,
+          "gain_error_percent": -0.0063046083993434365,
+          "phase_error_deg": -0.00014161965284764655
+        },
+        {
+          "frequency_hz": 1000,
+          "gain": 1.00000598518,
+          "phase_deg": -0.145056029181,
+          "archive_max_error_v": 0,
+          "analytic_gain": 1.0000072107974296,
+          "analytic_phase_deg": -0.14505596425807024,
+          "gain_error_percent": -0.00012256085919482018,
+          "phase_error_deg": -6.49229297544629e-08
+        },
+        {
+          "frequency_hz": 5000,
+          "gain": 1.00000016505,
+          "phase_deg": -0.0229197021045,
+          "archive_max_error_v": 0,
+          "analytic_gain": 1.0000001800221814,
+          "analytic_phase_deg": -0.022919720661687775,
+          "gain_error_percent": -1.4972178830063854e-06,
+          "phase_error_deg": 1.8557187776019335e-08
+        }
+      ]
+    },
+    {
+      "parameters": "user_trial",
+      "kp": 1.0,
+      "kr": 1.6,
+      "implementation": "previous",
+      "responses": [
+        {
+          "frequency_hz": 0,
+          "gain": 1.00000008941,
+          "phase_deg": 0,
+          "archive_max_error_v": 0.000200554728508,
+          "analytic_gain": 1.0,
+          "analytic_phase_deg": 0.0,
+          "gain_error_percent": 8.941000007034461e-06,
+          "phase_error_deg": 0.0
+        },
+        {
+          "frequency_hz": 49,
+          "gain": 1.79116257746,
+          "phase_deg": 25.7419509725,
+          "archive_max_error_v": 0.00124993920326,
+          "analytic_gain": 1.7911638679888822,
+          "analytic_phase_deg": 25.741926362397457,
+          "gain_error_percent": -7.204973845320595e-05,
+          "phase_error_deg": 2.4610102542510504e-05
+        },
+        {
+          "frequency_hz": 50,
+          "gain": 2.60000494524,
+          "phase_deg": -0.0454498551429,
+          "archive_max_error_v": 0.00196725991555,
+          "analytic_gain": 2.599998151123834,
+          "analytic_phase_deg": -0.045552637123946214,
+          "gain_error_percent": 0.0002613123460282196,
+          "phase_error_deg": 0.00010278198104621272
+        },
+        {
+          "frequency_hz": 51,
+          "gain": 1.80481230166,
+          "phase_deg": -25.6438703994,
+          "archive_max_error_v": 0.00120523571968,
+          "analytic_gain": 1.8048110488112339,
+          "analytic_phase_deg": -25.643872258004333,
+          "gain_error_percent": 6.941717067832087e-05,
+          "phase_error_deg": 1.8586043317725398e-06
+        },
+        {
+          "frequency_hz": 150,
+          "gain": 1.00041002139,
+          "phase_deg": -1.09347785863,
+          "archive_max_error_v": 7.70650804043e-05,
+          "analytic_gain": 1.000410018514055,
+          "analytic_phase_deg": -1.0934779403571524,
+          "gain_error_percent": 2.8747664249095806e-07,
+          "phase_error_deg": 8.172715237897421e-08
+        },
+        {
+          "frequency_hz": 1000,
+          "gain": 1.00000720429,
+          "phase_deg": -0.14505651339,
+          "archive_max_error_v": 2.92956829071e-05,
+          "analytic_gain": 1.0000072107974296,
+          "analytic_phase_deg": -0.14505596425807024,
+          "gain_error_percent": -6.507382743770052e-07,
+          "phase_error_deg": -5.491319297612485e-07
+        },
+        {
+          "frequency_hz": 5000,
+          "gain": 1.00000016942,
+          "phase_deg": -0.0229197221976,
+          "archive_max_error_v": 5.05968928337e-05,
+          "analytic_gain": 1.0000001800221814,
+          "analytic_phase_deg": -0.022919720661687775,
+          "gain_error_percent": -1.0602179467689155e-06,
+          "phase_error_deg": -1.5359122237934564e-09
+        }
+      ]
+    }
+  ]
+}

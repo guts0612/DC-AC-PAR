@@ -1,0 +1,23 @@
+{
+  "backup": "D:\\study\\hal\\backups\\DC-AC-PAR_before_archive_pr_20261019_034137",
+  "archive": "D:\\study\\电赛\\牢大合集\\仿真及工程样板\\REG_PFC28379D.zip",
+  "archive_sha256": "381e737451310c374aa26710f2190b38c0fc890b5e34d336ee68b6ba4fbe2def",
+  "original_files": {
+    "Core/Src/qpr_control.c": "b43d9fc1832f33d954beb74a06da43c964e91bd9a3b4eaba03817e5fcf543319",
+    "Core/Inc/qpr_control.h": "29f3d221c2366eadf4fd5aa6f03a993fd439230a9488b6c9b2db87fa50cf568c",
+    "MDK-ARM/dcac.uvprojx": "4378446864799274b59b74bb631ff9329b8853da461408cee9080c830a919add",
+    "Tests/verify_slave.py": "ec10dbd8d3f1b59e0c7e37ff4059d94c4e58ec18d029fe211ab198db92fa3d16",
+    "Tests/verify_voltage_error_dc.py": "5ad28b6d593412f51869d9f07c05f73bc81363083f0ba0bbf2267030d853bbc1",
+    "Tests/README.md": "27aab5f527f7d16c631e3a5dd170aa9483c214dfa7e240e8260f0500915b4bd5",
+    "Tests/verify_bus_sampling.py": "6e31a7ff6d64ca6f23731368aecfecbeb1d5d76e5a0dc2d2743a1625bdb0be99",
+    "Tests/verify_voltage_rms_integration.py": "f4d9e70b5d80234168664ea4bb0f12cd1710b6bf5948cde50b7c651a6d33a13a"
+  },
+  "archive_members": {
+    "PR.c": "0c458740163d4e047fb91117f0364774778388d16b94dcaf018d3e6d8ceeac2d",
+    "PR.h": "3994d12f309ff8541215ed087507812c8e0a69a3fd3734e2ae230ddbb9fb96ed"
+  },
+  "archive_member_paths": {
+    "PR.c": "REG_LED_BLINK/USER/PR.c",
+    "PR.h": "REG_LED_BLINK/USER/PR.h"
+  }
+}

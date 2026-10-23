@@ -73,6 +73,6 @@ with tempfile.TemporaryDirectory(prefix='voltage_error_dc_') as temp:
     exe=Path(temp)/'test.exe'
     src.write_text(HARNESS,encoding='utf-8')
     subprocess.run(['D:/tools/mingw64/bin/gcc.exe','-std=c11','-Wall','-Wextra','-Werror',
-                    '-I'+str(ROOT/'Core/Inc'),str(src),str(ROOT/'Core/Src/qpr_control.c'),
+                    '-I'+str(ROOT/'Core/Inc'),str(src),str(ROOT/'Core/Src/qpr_control.c'),str(ROOT/'Core/Src/PR.c'),
                     '-o',str(exe)],check=True)
     subprocess.run([str(exe)],check=True)

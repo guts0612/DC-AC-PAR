@@ -2,6 +2,7 @@
 #define QPR_CONTROL_H
 
 #include <stdint.h>
+#include "PR.h"
 
 /* singlephase.slx / Digital PR，Wc 的单位是 rad/s，不是 Hz。 */
 #define QPR_KP                         3.0f
@@ -35,18 +36,13 @@ typedef struct
     float sample_period_s;
     float virtual_decay;
     float virtual_b;
-    float resonant_decay;
-    float resonant_b;
-    float resonant_g;
-    float resonant_h;
+    struct PR_PATH pr;     /* 压缩包 PR 的系数及前两拍输入/输出。 */
     float voltage_error_dc_alpha;
     float voltage_error_dc_mean_scale;
     uint32_t voltage_error_dc_window_samples;
 
     float voltage_error_previous_v;  /* 上一拍补偿后的误差，供 Tustin 使用。 */
-    float current_error_previous_a;
-    float resonant_r;
-    float resonant_q;
+    float resonant_r;      /* 仅供遥测：限幅前 PR 输出-Kp*电流误差，非递推状态。 */
 
     /* 同一控制拍的观测量，可在 Keil Watch 中展开查看。 */
     float reference_peak_v;

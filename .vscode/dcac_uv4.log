@@ -1,2 +1,4 @@
 Load "dcac\\dcac.axf" 
-Erase Done.Programming Done.Verify OK.Flash Load finished at 17:40:30
+RDDI-DAP Error
+Error: Flash Download failed  -  Target DLL has been cancelled
+Flash Load finished at 19:55:52

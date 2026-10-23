@@ -400,6 +400,11 @@
               <FilePath>../Core/Src/qpr_control.c</FilePath>
             </File>
             <File>
+              <FileName>PR.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/PR.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>

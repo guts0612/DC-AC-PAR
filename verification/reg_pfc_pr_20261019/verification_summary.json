@@ -1,0 +1,64 @@
+{
+  "scope": "Summary of successful commands run during this port; host/API checks are not hardware validation.",
+  "checks": [
+    {
+      "command": "python Tests/verify_archive_pr.py",
+      "result": "PASS",
+      "test_sha256": "07c45b3eed4e3e348d9e542083f1749c28b5bd26fcda102ca015cb808d98a196"
+    },
+    {
+      "command": "python Tests/verify_slave.py",
+      "result": "PASS",
+      "test_sha256": "9e93ec2325c09213b9aa84d4ff7906377be578e777df8998f807b9394c9d0596"
+    },
+    {
+      "command": "python Tests/verify_voltage_error_dc.py",
+      "result": "PASS",
+      "test_sha256": "c0aa94145b84492ab2e32dd8c0d9fc6d948411371fb278fac7a2b8f8749f8efd"
+    },
+    {
+      "command": "python Tests/verify_bus_sampling.py",
+      "result": "PASS",
+      "test_sha256": "685606f2e242e65bae183db81f1f9ed8f4d81d12dbe0ef86a1c0184b23c0a223"
+    },
+    {
+      "command": "python Tests/verify_voltage_rms_integration.py",
+      "result": "PASS",
+      "test_sha256": "ede9c56118bd058f04e5b7f5fbb5a5cad4d3a6f96227beaef337ded32a9039c6"
+    },
+    {
+      "command": "python Tests/verify_voltage_rms.py",
+      "result": "PASS",
+      "test_sha256": "bb58473343abc0f15f2e79ea490d239b89abd0bc4cc940c31163afa42a3022c9"
+    },
+    {
+      "command": "python Tests/verify_vofa_frame.py",
+      "result": "PASS",
+      "test_sha256": "7fb53a82420990591ba178287db037d24f7e1c385c3ca2aff0fea801ec816aae"
+    },
+    {
+      "command": "python Tests/verify_vofa_mean.py",
+      "result": "PASS",
+      "test_sha256": "38766d8f28f99d9f3c89a61edd28d97bc939eff2c77fd2cccc7cc3c28cfdf1e2"
+    }
+  ],
+  "keil": {
+    "compiler": "ARMCC 5.06 update 7 build 960",
+    "target": "dcac",
+    "errors": 0,
+    "warnings": 0,
+    "log": "keil_build.log",
+    "hex_sha256": "d8fede9a56c54510ab2d1a680f99cda7ab98297cc7cd199c98e7e799e02be035"
+  },
+  "hardware_flashed": false,
+  "hardware_timing_measured": false,
+  "hardware_stability_validated": false,
+  "production_files": {
+    "Core\\Src\\PR.c": "4eb47c72d3facf9541d24abec8a17066b976a8bd463b1c3534e8f763155f8f77",
+    "Core\\Inc\\PR.h": "03919b52367083bfa6b77e9329137ec53c646e2a273d9e460033c7ecc4fcfdfa",
+    "Core\\Src\\qpr_control.c": "d47826dda979185e10d1d004fce38a84741abeaca51d1c3a6874895d59ec0931",
+    "Core\\Inc\\qpr_control.h": "667ca04e497c16428ffde82dcf261d1cadaf679dbeb9004d1bed75c065f6d633",
+    "Core\\Src\\main.c": "650418e1cc818a395fa8e40ed3110605bc713c1d0fcdf2d558bd90115854ad2c",
+    "MDK-ARM\\dcac.uvprojx": "b7c3b710681a1e41beb46226ea5080ba9e0a0a1dccc0494547da3ec523687f71"
+  }
+}

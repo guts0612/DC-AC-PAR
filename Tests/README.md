@@ -1,5 +1,17 @@
 # QPR 与开闭环/RMS 主机验证
 
+> 2026-10-18：当前已移植 REG_PFC28379D 的直接 I 型 PR；保存参数为
+> `QPR_KP=3`、`QPR_KR=21`，20 kHz。新增 `verify_archive_pr.py` 对照原包、
+> 修改前双状态实现和解析频响，并检查复位、限幅、非法值和主从独立状态。
+> 运行 `python Tests/verify_archive_pr.py`，结果写入
+> `verification/reg_pfc_pr_20261019/pr_port_results.json`。
+> 同目录 `PR移植说明.md` 记录移植范围、数值误差和验证边界。
+> 当前可用：该新脚本及 `verify_slave.py`、`verify_voltage_error_dc.py`、
+> `verify_bus_sampling.py`、`verify_voltage_rms_integration.py`、
+> `verify_voltage_rms.py`、`verify_vofa_frame.py`、`verify_vofa_mean.py`。
+> 旧 `compare_pr_implementations.py` 依赖移植前状态字段，连同下述历史脚本
+> 和旧结果均不能作为当前实现的验证；以下日期段落仅供追溯。
+
 > 2026-10-14：已按当前源码重新核对。主机为虚拟阻抗外环 + 电流 QPR，
 > `QPR_KP=1`、`QPR_KR=1.6`；并非旧文档所述的双 QPR。
 > VOFA 已扩展到八通道，CH8 为 20 kHz 全速采样的一周期输出电压 RMS。

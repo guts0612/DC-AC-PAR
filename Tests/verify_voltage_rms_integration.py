@@ -186,7 +186,7 @@ int main(void) {
     } else {
         assert(vofa_ch1==voltage_reference_v && vofa_ch2==true_voltage);
         assert(vofa_ch3==qpr_control.current_reference_a && vofa_ch4==true_current);
-        assert(vofa_ch5==qpr_control.bridge_reference_v);
+        assert(vofa_ch5==qpr_control.qpr_correction_v);
         assert(vofa_ch6==true_aux_current && vofa_ch7==dc_bus_voltage_v);
     }
     float snapshot[8]={vofa_ch1,vofa_ch2,vofa_ch3,vofa_ch4,vofa_ch5,vofa_ch6,vofa_ch7,vofa_ch8};
@@ -251,7 +251,8 @@ def main():
             subprocess.run(
                 [compiler, "-std=c11", "-Wall", "-Wextra", "-Werror",
                  "-Wno-unused-variable", "-I" + str(ROOT / "Core/Inc"),
-                 str(path), str(ROOT / "Core/Src/qpr_control.c"), "-o", str(executable)],
+                 str(path), str(ROOT / "Core/Src/qpr_control.c"),
+                 str(ROOT / "Core/Src/PR.c"), "-o", str(executable)],
                 check=True,
             )
             subprocess.run([str(executable)], check=True)
